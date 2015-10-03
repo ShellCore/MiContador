@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Mi Contador</string>
+    <string name="menu_categories">Categorías</string>
+    <string name="close_navigation_drawer">Cerrar navegación</string>
+    <string name="open_navigation_drawer">Abrir navegación</string>
+    <string name="title_activity_category_list">CategoryListActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
 </resources>
