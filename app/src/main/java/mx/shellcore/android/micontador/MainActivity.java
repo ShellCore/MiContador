@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import mx.shellcore.android.micontador.fragments.CategoriesFragment;
 
@@ -47,15 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_categories:
+                toolbar.setTitle(getString(R.string.menu_categories));
                 CategoriesFragment fragment = new CategoriesFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frame, fragment)
                         .commit();
-
-                Toast.makeText(getApplicationContext(), "Seleccionado Categorías", Toast.LENGTH_SHORT).show();
                 break;
-
-
         }
 
         drawer.closeDrawer(GravityCompat.START);

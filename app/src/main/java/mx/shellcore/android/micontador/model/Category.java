@@ -8,16 +8,14 @@ public class Category {
     private int id;
     private String name;
     private String logo;
-    private int categoryType;
 
     public Category() {
     }
 
-    public Category(int id, String name, String logo, int categoryType) {
+    public Category(int id, String name, String logo) {
         this.id = id;
         this.name = name;
         this.logo = logo;
-        this.categoryType = categoryType;
     }
 
     public int getId() {
@@ -42,13 +40,5 @@ public class Category {
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public int getCategoryType() {
-        return categoryType;
-    }
-
-    public void setCategoryType(int categoryType) {
-        this.categoryType = categoryType;
     }
 }

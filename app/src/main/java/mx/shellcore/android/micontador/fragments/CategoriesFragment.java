@@ -1,18 +1,32 @@
 package mx.shellcore.android.micontador.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
+import mx.shellcore.android.micontador.activities.CategoryDetailActivity;
+import mx.shellcore.android.micontador.adapters.CategoriesAdapter;
+import mx.shellcore.android.micontador.db.DBCategory;
+import mx.shellcore.android.micontador.model.Category;
 
 public class CategoriesFragment extends Fragment {
 
+    private ArrayList<Category> categories;
+
     private FloatingActionButton addcategory;
+    private RecyclerView recCategories;
+    private CategoriesAdapter categoryAdapter;
+    private DBCategory dbCategory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,13 +39,36 @@ public class CategoriesFragment extends Fragment {
 
         addcategory = (FloatingActionButton) getActivity().findViewById(R.id.add_category);
         addcategory.setOnClickListener(new AddCategoryOnClickListener());
+
+        dbCategory = new DBCategory(getActivity().getApplicationContext());
+        categories = dbCategory.getAll();
+
+        categoryAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+
+        recCategories = (RecyclerView) getActivity().findViewById(R.id.rec_categories);
+        recCategories.setHasFixedSize(true);
+        recCategories.setAdapter(categoryAdapter);
+        recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recCategories.setItemAnimator(new DefaultItemAnimator());
     }
 
     private class AddCategoryOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Add clicked", Toast.LENGTH_SHORT)
-            .show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
+            startActivityForResult(intent, 0);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        updateList();
+    }
+
+    private void updateList() {
+        categories = dbCategory.getAll();
+        categoryAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+        recCategories.setAdapter(categoryAdapter);
     }
 }
