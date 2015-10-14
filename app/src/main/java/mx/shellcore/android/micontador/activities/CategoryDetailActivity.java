@@ -63,8 +63,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
             case R.id.action_add:
                 int msg;
                 category.setName(edtName.getText().toString());
+                Log.d(TAG, category.toString());
                 if (category.getId() != 0) {
-                    dbCategory.update(category);
+                    dbCategory.update(category, category.getId());
                     msg = R.string.confirm_update_category;
                 } else {
                     dbCategory.create(category);
@@ -77,7 +78,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete:
                 if (category.getId() != 0) {
-                    dbCategory.delete(category);
+                    dbCategory.delete(category.getId());
                     finish();
                     Toast.makeText(getApplicationContext(), R.string.confirm_delete_category, Toast.LENGTH_SHORT).show();
                 } else {
