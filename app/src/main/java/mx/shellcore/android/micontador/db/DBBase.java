@@ -5,13 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import java.util.ArrayList;
 
 public abstract class DBBase<BO> {
-
-    private final static String TAG = "Debug";
 
     private DBHelper dbHelper;
 
@@ -28,8 +25,7 @@ public abstract class DBBase<BO> {
         ContentValues values = createContentValue(bo);
         database = dbHelper.getWritableDatabase();
         try {
-            long res = database.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-            Log.d(TAG, "Result: " + res);
+            database.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         } finally {
             database.close();
         }
@@ -48,7 +44,6 @@ public abstract class DBBase<BO> {
                 cursor.moveToNext();
             }
         }
-        Log.d(TAG, "Lista: " + list.size());
         return list;
     }
 

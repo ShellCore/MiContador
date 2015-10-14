@@ -1,5 +1,6 @@
 package mx.shellcore.android.micontador.activities;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +12,10 @@ import android.widget.Toast;
 
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.db.DBCategory;
+import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
 
-public class CategoryDetailActivity extends AppCompatActivity {
+public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
     public static final String TAG = "Debugging";
 
@@ -22,6 +24,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DBCategory dbCategory;
     private EditText edtName;
+    private DeleteDialogFragment deleteDialogFragment;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -78,9 +81,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete:
                 if (category.getId() != 0) {
-                    dbCategory.delete(category.getId());
-                    finish();
-                    Toast.makeText(getApplicationContext(), R.string.confirm_delete_category, Toast.LENGTH_SHORT).show();
+                    deleteDialogFragment = new DeleteDialogFragment();
+                    deleteDialogFragment.show(getFragmentManager(), "Eliminar");
                 } else {
                     finish();
                 }
@@ -89,5 +91,18 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        dbCategory.delete(category.getId());
+        deleteDialogFragment.dismiss();
+        finish();
+        Toast.makeText(getApplicationContext(), R.string.confirm_delete_category, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        deleteDialogFragment.dismiss();
     }
 }

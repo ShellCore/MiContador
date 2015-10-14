@@ -12,5 +12,5 @@
     <string name="confirm_update_category">Categoría actualizada correctamente</string>
     <string name="delete">Eliminar</string>
     <string name="confirm_delete_category">Categoría eliminada correctamente</string>
-
+    <string name="msg_delete_confirm">¿Está seguro que desea eliminar?</string>
 </resources>
