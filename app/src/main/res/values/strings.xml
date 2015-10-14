@@ -9,5 +9,6 @@
     <string name="category">Categoría</string>
     <string name="save">Guardar</string>
     <string name="confirm_save_category">Categoría almacenada correctamente</string>
+    <string name="confirm_update_category">Categoría actualizada correctamente</string>
 
 </resources>

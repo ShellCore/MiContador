@@ -61,7 +61,14 @@ public class DBCategory implements DBBase<Category> {
 
     @Override
     public void update(Category category) {
+        ContentValues values = CategoryBuilder.createCategoryContent(category);
 
+        database = dbHelper.getWritableDatabase();
+        try {
+            database.updateWithOnConflict(DBHelper.TABLE, values, DBHelper.C_ID + "=" + category.getId(), null, SQLiteDatabase.CONFLICT_IGNORE);
+        } finally {
+            dbHelper.close();
+        }
     }
 
     @Override

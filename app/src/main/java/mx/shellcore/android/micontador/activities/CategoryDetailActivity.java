@@ -3,6 +3,7 @@ package mx.shellcore.android.micontador.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -60,13 +61,19 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.action_add:
+                int msg;
                 category.setName(edtName.getText().toString());
+                if (category.getId() != 0) {
+                    dbCategory.update(category);
+                    msg = R.string.confirm_update_category;
+                } else {
+                    dbCategory.create(category);
+                    msg = R.string.confirm_save_category;
+                }
 
-                dbCategory.create(category);
                 setResult(RESULT_OK);
                 finish();
-
-                Toast.makeText(getApplicationContext(), R.string.confirm_save_category, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

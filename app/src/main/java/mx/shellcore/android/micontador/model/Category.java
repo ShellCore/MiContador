@@ -76,4 +76,12 @@ public class Category implements Parcelable {
         name = source.readString();
         logo = source.readString();
     }
+
+    @Override
+    public String toString() {
+        return "category {"
+                + getId() + ", "
+                + getName()
+                + "}";
+    }
 }

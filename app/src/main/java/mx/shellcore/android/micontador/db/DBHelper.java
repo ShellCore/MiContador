@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE " + TABLE)
                 .append(" (")
-                .append(" " + C_ID + " INT PRIMARY KEY,")
+                .append(" " + C_ID + " INTEGER PRIMARY KEY,")
                 .append(" " + C_NAME + " TEXT,")
                 .append(" " + C_IMAGE + " TEXT")
                 .append(" )");
