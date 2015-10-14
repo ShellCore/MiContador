@@ -10,5 +10,7 @@
     <string name="save">Guardar</string>
     <string name="confirm_save_category">Categoría almacenada correctamente</string>
     <string name="confirm_update_category">Categoría actualizada correctamente</string>
+    <string name="delete">Eliminar</string>
+    <string name="confirm_delete_category">Categoría eliminada correctamente</string>
 
 </resources>

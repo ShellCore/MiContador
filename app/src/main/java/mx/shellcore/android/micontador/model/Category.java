@@ -8,7 +8,7 @@ public class Category implements Parcelable {
     public static final int CAT_INCOME = 1;
     public static final int CAT_EXPENSE = 2;
 
-    private int id;
+    private int id = 0;
     private String name;
     private String logo;
 

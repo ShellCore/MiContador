@@ -73,8 +73,8 @@ public class DBCategory implements DBBase<Category> {
 
     @Override
     public void delete(Category category) {
-
+        database = dbHelper.getWritableDatabase();
+        database.delete(DBHelper.TABLE, DBHelper.C_ID + "=" + category.getId(), null);
+        dbHelper.close();
     }
-
-
 }

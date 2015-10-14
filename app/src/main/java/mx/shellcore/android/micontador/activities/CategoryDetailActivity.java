@@ -75,6 +75,15 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 finish();
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_delete:
+                if (category.getId() != 0) {
+                    dbCategory.delete(category);
+                    finish();
+                    Toast.makeText(getApplicationContext(), R.string.confirm_delete_category, Toast.LENGTH_SHORT).show();
+                } else {
+                    finish();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
