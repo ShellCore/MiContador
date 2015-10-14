@@ -10,16 +10,20 @@ import java.util.ArrayList;
 import mx.shellcore.android.micontador.builders.CategoryBuilder;
 import mx.shellcore.android.micontador.model.Category;
 
-public class DBCategory {
+public class DBCategory implements DBBase<Category> {
 
     private DBHelper dbHelper;
+    private SQLiteDatabase database;
 
     public DBCategory(Context context) {
         dbHelper = new DBHelper(context);
     }
 
-    public void create(ContentValues values) {
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
+    @Override
+    public void create(Category category) {
+        ContentValues values = CategoryBuilder.createCategoryContent(category);
+
+        database = dbHelper.getWritableDatabase();
         try {
             database.insertWithOnConflict(DBHelper.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         } finally {
@@ -27,10 +31,11 @@ public class DBCategory {
         }
     }
 
+    @Override
     public ArrayList<Category> getAll() {
         ArrayList<Category> categories = new ArrayList<>();
 
-        SQLiteDatabase database = dbHelper.getReadableDatabase();
+        database = dbHelper.getReadableDatabase();
         Cursor cursor = database.query(DBHelper.TABLE, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -43,4 +48,26 @@ public class DBCategory {
 
         return categories;
     }
+
+    @Override
+    public Category getById(int id) {
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.query(DBHelper.TABLE, null, DBHelper.C_ID + "=" + id, null, null, null, null);
+        if (!cursor.moveToFirst()) {
+            return null;
+        }
+        return CategoryBuilder.createCategory(cursor);
+    }
+
+    @Override
+    public void update(Category category) {
+
+    }
+
+    @Override
+    public void delete(Category category) {
+
+    }
+
+
 }

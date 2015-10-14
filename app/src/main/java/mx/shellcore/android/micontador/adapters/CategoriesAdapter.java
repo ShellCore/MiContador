@@ -20,6 +20,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     private ArrayList<Category> categories;
     private Context context;
 
+    OnItemClickListener onItemClickListener;
+
     public CategoriesAdapter(Context context, ArrayList<Category> categories) {
         this.context = context;
         this.categories = categories;
@@ -53,7 +55,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return categories.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imgCategory;
         private TextView txtCategory;
@@ -63,6 +65,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
             imgCategory = (ImageView) itemView.findViewById(R.id.img_category);
             txtCategory = (TextView) itemView.findViewById(R.id.txt_category);
+
+            itemView.setOnClickListener(this);
         }
 
         public void setImgCategory(String imgUrl) {
@@ -80,5 +84,21 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         public void setTxtCategory(String category) {
             txtCategory.setText(category);
         }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, getPosition());
+            }
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
     }
 }

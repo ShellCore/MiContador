@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.builders.CategoryBuilder;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.model.Category;
 
@@ -23,12 +22,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private DBCategory dbCategory;
     private EditText edtName;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
 
-        category = new Category();
+        edtName = (EditText) findViewById(R.id.edt_name);
 
         toolbar = (Toolbar) findViewById(R.id.category_toolbar);
         setSupportActionBar(toolbar);
@@ -36,8 +36,15 @@ public class CategoryDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        edtName = (EditText) findViewById(R.id.edt_name);
         dbCategory = new DBCategory(getApplicationContext());
+
+        Bundle args = getIntent().getExtras();
+        if (args != null && args.containsKey("Category")) {
+            category = args.getParcelable("Category");
+            edtName.setText(category.getName());
+        } else {
+            category = new Category();
+        }
     }
 
     @Override
@@ -55,7 +62,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             case R.id.action_add:
                 category.setName(edtName.getText().toString());
 
-                dbCategory.create(CategoryBuilder.createCategoryContent(category));
+                dbCategory.create(category);
                 setResult(RESULT_OK);
                 finish();
 

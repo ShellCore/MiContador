@@ -1,6 +1,9 @@
 package mx.shellcore.android.micontador.model;
 
-public class Category {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Category implements Parcelable {
 
     public static final int CAT_INCOME = 1;
     public static final int CAT_EXPENSE = 2;
@@ -40,5 +43,37 @@ public class Category {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(logo);
+    }
+
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+
+        @Override
+        public Category createFromParcel(Parcel source) {
+            return new Category(source);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
+
+    private Category(Parcel source) {
+        id = source.readInt();
+        name = source.readString();
+        logo = source.readString();
     }
 }

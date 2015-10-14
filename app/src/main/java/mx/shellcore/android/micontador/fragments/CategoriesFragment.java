@@ -21,12 +21,13 @@ import mx.shellcore.android.micontador.model.Category;
 
 public class CategoriesFragment extends Fragment {
 
+    private static final String TAG = "Debug";
     private ArrayList<Category> categories;
 
     private FloatingActionButton addcategory;
     private RecyclerView recCategories;
-    private CategoriesAdapter categoryAdapter;
     private DBCategory dbCategory;
+    private CategoriesAdapter categoryAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,12 +45,25 @@ public class CategoriesFragment extends Fragment {
         categories = dbCategory.getAll();
 
         categoryAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+        categoryAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
 
         recCategories = (RecyclerView) getActivity().findViewById(R.id.rec_categories);
         recCategories.setHasFixedSize(true);
         recCategories.setAdapter(categoryAdapter);
         recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
         recCategories.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+    private class CategoryDetailOnClickListener implements CategoriesAdapter.OnItemClickListener {
+
+        @Override
+        public void onItemClick(View v, int position) {
+            Category category = categories.get(position);
+            Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
+            intent.putExtra("Category", category);
+            startActivityForResult(intent, 0);
+        }
     }
 
     private class AddCategoryOnClickListener implements View.OnClickListener {
@@ -69,6 +83,7 @@ public class CategoriesFragment extends Fragment {
     private void updateList() {
         categories = dbCategory.getAll();
         categoryAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+        categoryAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
         recCategories.setAdapter(categoryAdapter);
     }
 }
