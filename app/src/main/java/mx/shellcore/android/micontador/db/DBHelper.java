@@ -15,10 +15,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String C_ID = BaseColumns._ID;
     public static final String C_NAME = "name";
     public static final String C_IMAGE = "image";
+    public static final String C_TYPE = "type";
 
     public static final int C_ID_INDEX = 0;
     public static final int C_NAME_INDEX = 1;
     public static final int C_IMAGE_INDEX = 2;
+    public static final int C_TYPE_INDEX = 3;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -31,7 +33,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 .append(" (")
                 .append(" " + C_ID + " INTEGER PRIMARY KEY,")
                 .append(" " + C_NAME + " TEXT,")
-                .append(" " + C_IMAGE + " TEXT")
+                .append(" " + C_IMAGE + " TEXT,")
+                .append(" " + C_TYPE + " INT")
                 .append(" )");
 
         db.execSQL(sql.toString());

@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import mx.shellcore.android.micontador.R;
@@ -20,11 +22,15 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     public static final String TAG = "Debugging";
 
     private Category category;
+    private boolean catExpense = false;
+
+    private DBCategory dbCategory;
+
+    private DeleteDialogFragment deleteDialogFragment;
 
     private Toolbar toolbar;
-    private DBCategory dbCategory;
     private EditText edtName;
-    private DeleteDialogFragment deleteDialogFragment;
+    private Switch swType;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -33,6 +39,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         setContentView(R.layout.activity_category_detail);
 
         edtName = (EditText) findViewById(R.id.edt_name);
+        swType = (Switch) findViewById(R.id.sw_type);
+        swType.setOnCheckedChangeListener(new OnTypeClickListener());
+
 
         toolbar = (Toolbar) findViewById(R.id.category_toolbar);
         setSupportActionBar(toolbar);
@@ -46,8 +55,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         if (args != null && args.containsKey("Category")) {
             category = args.getParcelable("Category");
             edtName.setText(category.getName());
+            if (category.getType() == Category.CAT_EXPENSE) {
+                catExpense = true;
+                swType.setText(getString(R.string.expense));
+                swType.setChecked(catExpense);
+            }
         } else {
             category = new Category();
+            category.setType(Category.CAT_INCOME);
         }
     }
 
@@ -104,5 +119,17 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         deleteDialogFragment.dismiss();
+    }
+
+    private class OnTypeClickListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            catExpense = isChecked;
+            swType.setChecked(catExpense);
+            swType.setText(catExpense ? getString(R.string.expense) : getString(R.string.income));
+            category.setType(catExpense ? Category.CAT_EXPENSE : Category.CAT_INCOME);
+            Log.d(TAG, catExpense ? "Category.CAT_EXPENSE" : "Category.CAT_INCOME");
+        }
     }
 }

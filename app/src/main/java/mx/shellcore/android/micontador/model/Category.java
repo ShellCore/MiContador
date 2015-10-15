@@ -11,14 +11,16 @@ public class Category implements Parcelable {
     private int id = 0;
     private String name;
     private String logo;
+    private int type;
 
     public Category() {
     }
 
-    public Category(int id, String name, String logo) {
+    public Category(int id, String name, String logo, int type) {
         this.id = id;
         this.name = name;
         this.logo = logo;
+        this.type = type;
     }
 
     public int getId() {
@@ -45,6 +47,13 @@ public class Category implements Parcelable {
         this.logo = logo;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     @Override
     public int describeContents() {

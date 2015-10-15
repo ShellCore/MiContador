@@ -5,7 +5,6 @@
     <string name="open_navigation_drawer">Abrir navegación</string>
     <string name="title_activity_category_list">CategoryListActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="category">Categoría</string>
     <string name="save">Guardar</string>
     <string name="confirm_save_category">Categoría almacenada correctamente</string>
@@ -13,4 +12,7 @@
     <string name="delete">Eliminar</string>
     <string name="confirm_delete_category">Categoría eliminada correctamente</string>
     <string name="msg_delete_confirm">¿Está seguro que desea eliminar?</string>
+    <string name="income">Ingreso</string>
+    <string name="expense">Gasto</string>
+    <string name="not_elements">No hay elementos almacenados</string>
 </resources>

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public abstract class DBBase<BO> {
 
-    private DBHelper dbHelper;
+    DBHelper dbHelper;
 
-    private SQLiteDatabase database;
+    SQLiteDatabase database;
     private final String table;
     private final String C_ID = BaseColumns._ID;
 

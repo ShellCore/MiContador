@@ -4,10 +4,36 @@
     android:layout_height="match_parent"
     tools:context="mx.shellcore.android.micontador.fragments.CategoriesFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_categories"
+    <LinearLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/income"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/text_dark" />
+
+        <TextView
+            android:id="@+id/txt_not_income"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:text="@string/not_elements"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/text_dark" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_income"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_category"

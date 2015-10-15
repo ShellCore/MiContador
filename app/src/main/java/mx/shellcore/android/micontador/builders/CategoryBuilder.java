@@ -16,6 +16,7 @@ public class CategoryBuilder {
         }
         values.put(DBHelper.C_NAME, category.getName());
         values.put(DBHelper.C_IMAGE, category.getLogo());
+        values.put(DBHelper.C_TYPE, category.getType());
 
         return values;
     }
@@ -26,6 +27,7 @@ public class CategoryBuilder {
         category.setId(cursor.getInt(DBHelper.C_ID_INDEX));
         category.setName(cursor.getString(DBHelper.C_NAME_INDEX));
         category.setLogo(cursor.getString(DBHelper.C_IMAGE_INDEX));
+        category.setType(cursor.getInt(DBHelper.C_TYPE_INDEX));
 
         return category;
     }
