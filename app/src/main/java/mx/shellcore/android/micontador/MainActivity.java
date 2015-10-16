@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import mx.shellcore.android.micontador.fragments.CategoriesFragment;
+import mx.shellcore.android.micontador.model.Category;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,12 +45,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
+        Bundle bundle = new Bundle();
+
         switch (menuItem.getItemId()) {
-            case R.id.nav_categories:
-                toolbar.setTitle(getString(R.string.menu_categories));
-                CategoriesFragment fragment = new CategoriesFragment();
+            case R.id.nav_income:
+                bundle.putInt("CategoryType", Category.CAT_INCOME);
+                toolbar.setTitle(getString(R.string.income));
+                CategoriesFragment fragmentIncome = new CategoriesFragment();
+                fragmentIncome.setArguments(bundle);
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.frame, fragment)
+                        .replace(R.id.frame, fragmentIncome)
+                        .commit();
+                break;
+            case R.id.nav_expense:
+                bundle.putInt("CategoryType", Category.CAT_EXPENSE);
+                toolbar.setTitle(getString(R.string.expense));
+                CategoriesFragment fragmentExpense = new CategoriesFragment();
+                fragmentExpense.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frame, fragmentExpense)
                         .commit();
                 break;
         }

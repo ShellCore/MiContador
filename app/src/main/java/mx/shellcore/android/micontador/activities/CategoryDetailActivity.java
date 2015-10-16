@@ -63,6 +63,15 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         } else {
             category = new Category();
             category.setType(Category.CAT_INCOME);
+            if (args != null && args.containsKey("CategoryType")) {
+                int categoryType = args.getInt("CategoryType");
+                category.setType(categoryType);
+                if (category.getType() == Category.CAT_EXPENSE) {
+                    catExpense = true;
+                    swType.setText(getString(R.string.expense));
+                    swType.setChecked(catExpense);
+                }
+            }
         }
     }
 

@@ -23,15 +23,15 @@ import mx.shellcore.android.micontador.model.Category;
 public class CategoriesFragment extends Fragment {
 
     private static final String TAG = "Debug";
-    private ArrayList<Category> incomes;
-    private ArrayList<Category> expenses;
+    private ArrayList<Category> categories;
+    private int categoryType;
 
     private DBCategory dbCategory;
-    private CategoriesAdapter incomeAdapter;
+    private CategoriesAdapter categoriesAdapter;
 
     private FloatingActionButton addcategory;
-    private RecyclerView recIncome;
-    private TextView txtNotIncome;
+    private RecyclerView recCategories;
+    private TextView txtNotElements;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,21 +42,26 @@ public class CategoriesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        addcategory = (FloatingActionButton) getActivity().findViewById(R.id.add_category);
-        addcategory.setOnClickListener(new AddCategoryOnClickListener());
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey("CategoryType")) {
+            categoryType = bundle.getInt("CategoryType");
 
-        txtNotIncome = (TextView) getActivity().findViewById(R.id.txt_not_income);
+            addcategory = (FloatingActionButton) getActivity().findViewById(R.id.add_category);
+            addcategory.setOnClickListener(new AddCategoryOnClickListener());
 
-        dbCategory = new DBCategory(getActivity().getApplicationContext());
+            txtNotElements = (TextView) getActivity().findViewById(R.id.txt_not_elements);
 
-        updateIncomeList();
+            dbCategory = new DBCategory(getActivity().getApplicationContext());
+
+            updateList();
+        }
     }
 
     private class CategoryDetailOnClickListener implements CategoriesAdapter.OnItemClickListener {
 
         @Override
         public void onItemClick(View v, int position) {
-            Category category = incomes.get(position);
+            Category category = categories.get(position);
             Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
             intent.putExtra("Category", category);
             startActivityForResult(intent, 0);
@@ -67,6 +72,7 @@ public class CategoriesFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
+            intent.putExtra("CategoryType", categoryType);
             startActivityForResult(intent, 0);
         }
     }
@@ -74,26 +80,26 @@ public class CategoriesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        updateIncomeList();
+        updateList();
     }
 
-    private void updateIncomeList() {
-        incomes = dbCategory.getAllByType(Category.CAT_INCOME);
-        incomeAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), incomes);
-        incomeAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
+    private void updateList() {
+        categories = dbCategory.getAllByType(categoryType);
+        categoriesAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+        categoriesAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
 
-        recIncome = (RecyclerView) getActivity().findViewById(R.id.rec_income);
-        recIncome.setHasFixedSize(true);
-        recIncome.setAdapter(incomeAdapter);
-        recIncome.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recIncome.setItemAnimator(new DefaultItemAnimator());
+        recCategories = (RecyclerView) getActivity().findViewById(R.id.rec_income);
+        recCategories.setHasFixedSize(true);
+        recCategories.setAdapter(categoriesAdapter);
+        recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recCategories.setItemAnimator(new DefaultItemAnimator());
 
-        if (incomes.isEmpty()) {
-            txtNotIncome.setVisibility(View.VISIBLE);
-            recIncome.setVisibility(View.GONE);
+        if (categories.isEmpty()) {
+            txtNotElements.setVisibility(View.VISIBLE);
+            recCategories.setVisibility(View.GONE);
         } else {
-            txtNotIncome.setVisibility(View.GONE);
-            recIncome.setVisibility(View.VISIBLE);
+            txtNotElements.setVisibility(View.GONE);
+            recCategories.setVisibility(View.VISIBLE);
         }
     }
 }
