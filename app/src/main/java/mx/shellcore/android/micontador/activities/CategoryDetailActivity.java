@@ -1,21 +1,27 @@
 package mx.shellcore.android.micontador.activities;
 
 import android.app.DialogFragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.db.DBCategory;
+import mx.shellcore.android.micontador.db.DBCategoryImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
+import mx.shellcore.android.micontador.model.CategoryImage;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
@@ -25,12 +31,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private boolean catExpense = false;
 
     private DBCategory dbCategory;
+    private DBCategoryImage dbCategoryImage;
 
     private DeleteDialogFragment deleteDialogFragment;
 
     private Toolbar toolbar;
     private EditText edtName;
     private Switch swType;
+    private ImageView imgLogo;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -38,9 +46,24 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
 
+        dbCategory = new DBCategory(getApplicationContext());
+        dbCategoryImage = new DBCategoryImage(getApplicationContext());
+
         edtName = (EditText) findViewById(R.id.edt_name);
         swType = (Switch) findViewById(R.id.sw_type);
         swType.setOnCheckedChangeListener(new OnTypeClickListener());
+
+        imgLogo = (ImageView) findViewById(R.id.img_logo);
+
+        CategoryImage image = dbCategoryImage.getById(1);
+
+        byte[] imgbyte = Base64.decode(image.getImage(), Base64.DEFAULT);
+        Bitmap img = BitmapFactory.decodeByteArray(imgbyte, 0, imgbyte.length);
+        if (img != null) {
+            imgLogo.setImageBitmap(img);
+        } else {
+            Log.e(TAG, "Error de bitmap");
+        }
 
 
         toolbar = (Toolbar) findViewById(R.id.category_toolbar);
@@ -49,7 +72,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        dbCategory = new DBCategory(getApplicationContext());
 
         Bundle args = getIntent().getExtras();
         if (args != null && args.containsKey("Category")) {

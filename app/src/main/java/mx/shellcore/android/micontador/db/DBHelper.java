@@ -3,24 +3,15 @@ package mx.shellcore.android.micontador.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
+import android.database.sqlite.SQLiteStatement;
+
+import mx.shellcore.android.micontador.utils.Base64Images;
+import mx.shellcore.android.micontador.utils.Constants;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "micontador.db";
     public static final int DB_VERSION = 1;
-
-    public static final String TABLE = "category";
-
-    public static final String C_ID = BaseColumns._ID;
-    public static final String C_NAME = "name";
-    public static final String C_IMAGE = "image";
-    public static final String C_TYPE = "type";
-
-    public static final int C_ID_INDEX = 0;
-    public static final int C_NAME_INDEX = 1;
-    public static final int C_IMAGE_INDEX = 2;
-    public static final int C_TYPE_INDEX = 3;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -28,21 +19,49 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(createCategoryTable());
+        db.execSQL(createCategoryImageTable());
+        inicializarImagenes(db);
+    }
+
+    private String createCategoryImageTable() {
         StringBuilder sql = new StringBuilder();
-        sql.append("CREATE TABLE " + TABLE)
+
+        sql.append("CREATE TABLE " + Constants.CATEGORY_IMAGE.TABLE)
                 .append(" (")
-                .append(" " + C_ID + " INTEGER PRIMARY KEY,")
-                .append(" " + C_NAME + " TEXT,")
-                .append(" " + C_IMAGE + " TEXT,")
-                .append(" " + C_TYPE + " INT")
+                .append(" " + Constants.CATEGORY_IMAGE.C_ID + " INTEGER PRIMARY KEY,")
+                .append(" " + Constants.CATEGORY_IMAGE.C_IMAGE + " BLOB")
                 .append(" )");
 
-        db.execSQL(sql.toString());
+        return sql.toString();
+    }
+
+    private String createCategoryTable() {
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("CREATE TABLE " + Constants.CATEGORY.TABLE)
+                .append(" (")
+                .append(" " + Constants.CATEGORY.C_ID + " INTEGER PRIMARY KEY,")
+                .append(" " + Constants.CATEGORY.C_NAME + " TEXT,")
+                .append(" " + Constants.CATEGORY.C_IMAGE + " TEXT,")
+                .append(" " + Constants.CATEGORY.C_TYPE + " INT")
+                .append(" )");
+
+        return sql.toString();
+    }
+
+    private void inicializarImagenes(SQLiteDatabase db) {
+        String sql = "INSERT INTO " + Constants.CATEGORY_IMAGE.TABLE + " (" + Constants.CATEGORY_IMAGE.C_IMAGE + ") VALUES (?)";
+        SQLiteStatement insertStatement = db.compileStatement(sql);
+        insertStatement.clearBindings();
+        insertStatement.bindString(1, Base64Images.ALIEN);
+        insertStatement.executeInsert();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.CATEGORY_IMAGE.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.CATEGORY.TABLE);
         onCreate(db);
     }
 }

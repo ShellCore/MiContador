@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.builders.CategoryBuilder;
 import mx.shellcore.android.micontador.model.Category;
+import mx.shellcore.android.micontador.utils.Constants;
 
 public class DBCategory extends DBBase<Category> {
 
     public DBCategory(Context context) {
-        super(context, DBHelper.TABLE);
+        super(context, Constants.CATEGORY.TABLE);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class DBCategory extends DBBase<Category> {
 
 
         database = dbHelper.getReadableDatabase();
-        Cursor cursor = database.query(DBHelper.TABLE, null, DBHelper.C_TYPE + "=?", whereArgs, null, null, null);
+        Cursor cursor = database.query(Constants.CATEGORY.TABLE, null, Constants.CATEGORY.C_TYPE + "=?", whereArgs, null, null, null);
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
