@@ -1,22 +1,23 @@
 package mx.shellcore.android.micontador.activities;
 
 import android.app.DialogFragment;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import mx.shellcore.android.micontador.R;
+import mx.shellcore.android.micontador.adapters.CategoryImageAdapter;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.db.DBCategoryImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
@@ -26,19 +27,22 @@ import mx.shellcore.android.micontador.model.CategoryImage;
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
     public static final String TAG = "Debugging";
+    private static final int NUM_COLUMNS = 3;
 
     private Category category;
+    private ArrayList<CategoryImage> categoryImages;
     private boolean catExpense = false;
 
     private DBCategory dbCategory;
     private DBCategoryImage dbCategoryImage;
+    private CategoryImageAdapter categoryImageAdapter;
 
     private DeleteDialogFragment deleteDialogFragment;
 
     private Toolbar toolbar;
     private EditText edtName;
     private Switch swType;
-    private ImageView imgLogo;
+    private RecyclerView recCategoryImages;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -49,21 +53,15 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         dbCategory = new DBCategory(getApplicationContext());
         dbCategoryImage = new DBCategoryImage(getApplicationContext());
 
+        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), dbCategoryImage.getAll());
+
         edtName = (EditText) findViewById(R.id.edt_name);
         swType = (Switch) findViewById(R.id.sw_type);
         swType.setOnCheckedChangeListener(new OnTypeClickListener());
 
-        imgLogo = (ImageView) findViewById(R.id.img_logo);
-
-        CategoryImage image = dbCategoryImage.getById(1);
-
-        byte[] imgbyte = Base64.decode(image.getImage(), Base64.DEFAULT);
-        Bitmap img = BitmapFactory.decodeByteArray(imgbyte, 0, imgbyte.length);
-        if (img != null) {
-            imgLogo.setImageBitmap(img);
-        } else {
-            Log.e(TAG, "Error de bitmap");
-        }
+        recCategoryImages = (RecyclerView) findViewById(R.id.rec_category_images);
+        recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
+        recCategoryImages.setAdapter(categoryImageAdapter);
 
 
         toolbar = (Toolbar) findViewById(R.id.category_toolbar);
