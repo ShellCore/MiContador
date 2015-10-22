@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Category;
+import mx.shellcore.android.micontador.utils.Base64Images;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
@@ -70,9 +71,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         }
 
         public void setImgCategory(String imgUrl) {
-            Picasso.with(context)
-                    .load(imgUrl)
-                    .into(imgCategory);
+            imgCategory.setImageBitmap(Base64Images.decode(imgUrl));
         }
 
         public void setDefaultImgCategory() {

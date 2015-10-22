@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -20,6 +21,8 @@ public class CategoryImageAdapter extends RecyclerView.Adapter<CategoryImageAdap
 
     private ArrayList<CategoryImage> images;
     private Context context;
+
+    OnItemClickListener onItemClickListener;
 
     public CategoryImageAdapter(Context context, ArrayList<CategoryImage> images) {
         this.context = context;
@@ -49,13 +52,15 @@ public class CategoryImageAdapter extends RecyclerView.Adapter<CategoryImageAdap
         return images.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         private ImageView imgCategoryImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgCategoryImage = (ImageView) itemView.findViewById(R.id.img_category_image);
+
+            imgCategoryImage.setOnClickListener(this);
         }
 
         public void setImgCategoryImage(String image) {
@@ -72,5 +77,21 @@ public class CategoryImageAdapter extends RecyclerView.Adapter<CategoryImageAdap
                     .load(R.drawable.ic_not_found)
                     .into(imgCategoryImage);
         }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, getPosition());
+            }
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
     }
 }

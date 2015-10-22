@@ -9,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import mx.shellcore.android.micontador.db.DBCategoryImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.model.CategoryImage;
+import mx.shellcore.android.micontador.utils.Base64Images;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
@@ -43,6 +46,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private EditText edtName;
     private Switch swType;
     private RecyclerView recCategoryImages;
+    private ImageView imgImage;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -53,7 +57,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         dbCategory = new DBCategory(getApplicationContext());
         dbCategoryImage = new DBCategoryImage(getApplicationContext());
 
-        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), dbCategoryImage.getAll());
+        categoryImages = dbCategoryImage.getAll();
+        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), categoryImages);
 
         edtName = (EditText) findViewById(R.id.edt_name);
         swType = (Switch) findViewById(R.id.sw_type);
@@ -62,6 +67,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         recCategoryImages = (RecyclerView) findViewById(R.id.rec_category_images);
         recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
         recCategoryImages.setAdapter(categoryImageAdapter);
+        categoryImageAdapter.setOnItemClickListener(new OnImageItemClickListener());
 
 
         toolbar = (Toolbar) findViewById(R.id.category_toolbar);
@@ -70,11 +76,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        imgImage = (ImageView) findViewById(R.id.img_image);
+
 
         Bundle args = getIntent().getExtras();
         if (args != null && args.containsKey("Category")) {
             category = args.getParcelable("Category");
             edtName.setText(category.getName());
+            imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
             if (category.getType() == Category.CAT_EXPENSE) {
                 catExpense = true;
                 swType.setText(getString(R.string.expense));
@@ -159,6 +168,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
             swType.setText(catExpense ? getString(R.string.expense) : getString(R.string.income));
             category.setType(catExpense ? Category.CAT_EXPENSE : Category.CAT_INCOME);
             Log.d(TAG, catExpense ? "Category.CAT_EXPENSE" : "Category.CAT_INCOME");
+        }
+    }
+
+    private class OnImageItemClickListener implements CategoryImageAdapter.OnItemClickListener {
+        @Override
+        public void onItemClick(View v, int position) {
+            category.setLogo(categoryImages.get(position).getImage());
+            imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
         }
     }
 }
