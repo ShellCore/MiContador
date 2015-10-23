@@ -29,9 +29,11 @@ import mx.shellcore.android.micontador.utils.Base64Images;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
+    // Constants
     public static final String TAG = "Debugging";
     private static final int NUM_COLUMNS = 3;
 
+    // Variables
     private ArrayList<CategoryImage> categoryImages;
     private Category category;
     private Bundle args;

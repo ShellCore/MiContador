@@ -22,14 +22,18 @@ import mx.shellcore.android.micontador.model.Category;
 
 public class CategoriesFragment extends Fragment {
 
-    private static final String TAG = "Debug";
+    // Variables
     private ArrayList<Category> categories;
     private int categoryType;
 
-    private DBCategory dbCategory;
+    // Adapters
     private CategoriesAdapter categoriesAdapter;
 
-    private FloatingActionButton addcategory;
+    // Services
+    private DBCategory dbCategory;
+
+    // Components
+    private FloatingActionButton addCategory;
     private RecyclerView recCategories;
     private TextView txtNotElements;
 
@@ -42,19 +46,59 @@ public class CategoriesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        getServices();
+        getComponents();
+
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey("CategoryType")) {
             categoryType = bundle.getInt("CategoryType");
-
-            addcategory = (FloatingActionButton) getActivity().findViewById(R.id.add_category);
-            addcategory.setOnClickListener(new AddCategoryOnClickListener());
-
-            txtNotElements = (TextView) getActivity().findViewById(R.id.txt_not_elements);
-
-            dbCategory = new DBCategory(getActivity().getApplicationContext());
-
-            updateList();
         }
+
+        initializeElements();
+        setListeners();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        updateList();
+    }
+
+    private void getServices() {
+        dbCategory = new DBCategory(getActivity().getApplicationContext());
+    }
+
+    private void getComponents() {
+        addCategory = (FloatingActionButton) getActivity().findViewById(R.id.add_category);
+        recCategories = (RecyclerView) getActivity().findViewById(R.id.rec_income);
+        txtNotElements = (TextView) getActivity().findViewById(R.id.txt_not_elements);
+    }
+
+    private void initializeElements() {
+        categories = dbCategory.getAllByType(categoryType);
+        categoriesAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+
+        recCategories.setHasFixedSize(true);
+        recCategories.setAdapter(categoriesAdapter);
+        recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recCategories.setItemAnimator(new DefaultItemAnimator());
+
+        if (categories.isEmpty()) {
+            txtNotElements.setVisibility(View.VISIBLE);
+            recCategories.setVisibility(View.GONE);
+        } else {
+            txtNotElements.setVisibility(View.GONE);
+            recCategories.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setListeners() {
+        addCategory.setOnClickListener(new AddCategoryOnClickListener());
+        categoriesAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
+    }
+
+    private void updateList() {
+        initializeElements();
     }
 
     private class CategoryDetailOnClickListener implements CategoriesAdapter.OnItemClickListener {
@@ -74,32 +118,6 @@ public class CategoriesFragment extends Fragment {
             Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
             intent.putExtra("CategoryType", categoryType);
             startActivityForResult(intent, 0);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        updateList();
-    }
-
-    private void updateList() {
-        categories = dbCategory.getAllByType(categoryType);
-        categoriesAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
-        categoriesAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
-
-        recCategories = (RecyclerView) getActivity().findViewById(R.id.rec_income);
-        recCategories.setHasFixedSize(true);
-        recCategories.setAdapter(categoriesAdapter);
-        recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recCategories.setItemAnimator(new DefaultItemAnimator());
-
-        if (categories.isEmpty()) {
-            txtNotElements.setVisibility(View.VISIBLE);
-            recCategories.setVisibility(View.GONE);
-        } else {
-            txtNotElements.setVisibility(View.GONE);
-            recCategories.setVisibility(View.VISIBLE);
         }
     }
 }
