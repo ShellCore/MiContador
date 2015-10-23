@@ -1,6 +1,5 @@
 package mx.shellcore.android.micontador.model;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -66,6 +65,7 @@ public class Category implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(logo);
+        dest.writeInt(type);
     }
 
     public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
@@ -85,13 +85,15 @@ public class Category implements Parcelable {
         id = source.readInt();
         name = source.readString();
         logo = source.readString();
+        type = source.readInt();
     }
 
     @Override
     public String toString() {
         return "category {"
                 + getId() + ", "
-                + getName()
+                + getName() + ", "
+                + getType()
                 + "}";
     }
 }

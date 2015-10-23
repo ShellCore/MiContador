@@ -32,14 +32,18 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     public static final String TAG = "Debugging";
     private static final int NUM_COLUMNS = 3;
 
-    private Category category;
     private ArrayList<CategoryImage> categoryImages;
-    private boolean catExpense = false;
+    private Category category;
+    private Bundle args;
 
-    private DBCategory dbCategory;
-    private DBCategoryImage dbCategoryImage;
+    // Adapters
     private CategoryImageAdapter categoryImageAdapter;
 
+    // Services
+    private DBCategory dbCategory;
+    private DBCategoryImage dbCategoryImage;
+
+    // Components
     private DeleteDialogFragment deleteDialogFragment;
 
     private Toolbar toolbar;
@@ -54,55 +58,20 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_detail);
 
-        dbCategory = new DBCategory(getApplicationContext());
-        dbCategoryImage = new DBCategoryImage(getApplicationContext());
-
-        categoryImages = dbCategoryImage.getAll();
-        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), categoryImages);
-
-        edtName = (EditText) findViewById(R.id.edt_name);
-        swType = (Switch) findViewById(R.id.sw_type);
-        swType.setOnCheckedChangeListener(new OnTypeClickListener());
-
-        recCategoryImages = (RecyclerView) findViewById(R.id.rec_category_images);
-        recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
-        recCategoryImages.setAdapter(categoryImageAdapter);
-        categoryImageAdapter.setOnItemClickListener(new OnImageItemClickListener());
+        getServices();
+        getComponents();
+        initializeElements();
+        setListeners();
 
 
-        toolbar = (Toolbar) findViewById(R.id.category_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        imgImage = (ImageView) findViewById(R.id.img_image);
-
-
-        Bundle args = getIntent().getExtras();
+        args = getIntent().getExtras();
         if (args != null && args.containsKey("Category")) {
-            category = args.getParcelable("Category");
-            edtName.setText(category.getName());
-            imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
-            if (category.getType() == Category.CAT_EXPENSE) {
-                catExpense = true;
-                swType.setText(getString(R.string.expense));
-                swType.setChecked(catExpense);
-            }
+            getCategoryBundle();
         } else {
-            category = new Category();
-            category.setType(Category.CAT_INCOME);
-            if (args != null && args.containsKey("CategoryType")) {
-                int categoryType = args.getInt("CategoryType");
-                category.setType(categoryType);
-                if (category.getType() == Category.CAT_EXPENSE) {
-                    catExpense = true;
-                    swType.setText(getString(R.string.expense));
-                    swType.setChecked(catExpense);
-                }
-            }
+            createNewCategory();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,15 +128,81 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         deleteDialogFragment.dismiss();
     }
 
+    private void getComponents() {
+        edtName = (EditText) findViewById(R.id.edt_name);
+        swType = (Switch) findViewById(R.id.sw_type);
+        recCategoryImages = (RecyclerView) findViewById(R.id.rec_category_images);
+        toolbar = (Toolbar) findViewById(R.id.category_toolbar);
+        imgImage = (ImageView) findViewById(R.id.img_image);
+    }
+
+    private void getServices() {
+        dbCategory = new DBCategory(getApplicationContext());
+        dbCategoryImage = new DBCategoryImage(getApplicationContext());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void initializeElements() {
+        categoryImages = dbCategoryImage.getAll();
+        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), categoryImages);
+        recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
+        recCategoryImages.setAdapter(categoryImageAdapter);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void setListeners() {
+        swType.setOnCheckedChangeListener(new OnTypeClickListener());
+        categoryImageAdapter.setOnItemClickListener(new OnImageItemClickListener());
+    }
+
+    private void getCategoryBundle() {
+        category = args.getParcelable("Category");
+        if (category != null) {
+            if (category.getLogo() != null) {
+                imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
+            }
+            edtName.setText(category.getName());
+            if (category.getType() == Category.CAT_INCOME) {
+                swType.setChecked(false);
+                swType.setText(getString(R.string.income));
+            } else {
+                swType.setChecked(true);
+                swType.setText(getString(R.string.expense));
+            }
+        }
+    }
+
+    private void createNewCategory() {
+        category = new Category();
+        if (args.containsKey("CategoryType")) {
+            int categoryType = args.getInt("CategoryType");
+            category.setType(categoryType);
+            if (categoryType == Category.CAT_INCOME) {
+                swType.setChecked(false);
+                swType.setText(getString(R.string.income));
+            } else {
+                swType.setChecked(true);
+                swType.setText(getString(R.string.expense));
+            }
+        }
+    }
+
     private class OnTypeClickListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            catExpense = isChecked;
-            swType.setChecked(catExpense);
-            swType.setText(catExpense ? getString(R.string.expense) : getString(R.string.income));
-            category.setType(catExpense ? Category.CAT_EXPENSE : Category.CAT_INCOME);
-            Log.d(TAG, catExpense ? "Category.CAT_EXPENSE" : "Category.CAT_INCOME");
+            if (!isChecked) {
+                category.setType(Category.CAT_INCOME);
+                swType.setChecked(false);
+                swType.setText(getString(R.string.income));
+            } else {
+                category.setType(Category.CAT_EXPENSE);
+                swType.setChecked(true);
+                swType.setText(getString(R.string.expense));
+            }
         }
     }
 
