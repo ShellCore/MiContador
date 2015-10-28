@@ -24,7 +24,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createCategoryTable());
         db.execSQL(createCategoryImageTable());
+        db.execSQL(createCurrencyTable());
+
         initializeImages(db);
+        initializeCurrencies(db);
     }
 
     @Override
@@ -32,14 +35,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.CATEGORY.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Constants.CATEGORY_IMAGE.TABLE);
         onCreate(db);
-    }
-
-    private String createCategoryImageTable() {
-        return "CREATE TABLE " + Constants.CATEGORY_IMAGE.TABLE
-                + " ("
-                + " " + Constants.CATEGORY_IMAGE.C_ID + " INTEGER PRIMARY KEY,"
-                + " " + Constants.CATEGORY_IMAGE.C_IMAGE + " BLOB"
-                + " )";
     }
 
     private String createCategoryTable() {
@@ -51,6 +46,22 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " " + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " INTEGER,"
                 + " FOREIGN KEY(" + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + ") REFERENCES " + Constants.CATEGORY_IMAGE.TABLE + "(" + Constants.CATEGORY_IMAGE.C_ID + ")"
                 + " )";
+    }
+
+    private String createCategoryImageTable() {
+        return "CREATE TABLE " + Constants.CATEGORY_IMAGE.TABLE
+                + " ("
+                + " " + Constants.CATEGORY_IMAGE.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + Constants.CATEGORY_IMAGE.C_IMAGE + " BLOB"
+                + " )";
+    }
+
+    private String createCurrencyTable() {
+        return "CREATE TABLE " + Constants.CURRENCY.TABLE
+                + " ("
+                + " " + Constants.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
+                + " " + Constants.CURRENCY.C_CURRENCY + " TEXT"
+                +" )";
     }
 
     private void initializeImages(SQLiteDatabase db) {
@@ -66,6 +77,23 @@ public class DBHelper extends SQLiteOpenHelper {
             SQLiteStatement insertStatement = db.compileStatement(sql);
             insertStatement.clearBindings();
             insertStatement.bindString(1, image);
+            insertStatement.executeInsert();
+        }
+    }
+
+    private void initializeCurrencies(SQLiteDatabase db) {
+        ArrayList<String> currencies = getCurrencies();
+
+        for (String currency : currencies) {
+            String sql = "INSERT INTO " + Constants.CURRENCY.TABLE
+                    + " ("
+                    + Constants.CURRENCY.C_CURRENCY
+                    + " )"
+                    + " VALUES (?)";
+
+            SQLiteStatement insertStatement = db.compileStatement(sql);
+            insertStatement.clearBindings();
+            insertStatement.bindString(1, currency);
             insertStatement.executeInsert();
         }
     }
@@ -164,6 +192,24 @@ public class DBHelper extends SQLiteOpenHelper {
         images.add(getPath(R.drawable.yin_yang));
 
         return images;
+    }
+
+    private ArrayList<String> getCurrencies() {
+        ArrayList<String> currencies = new ArrayList<>();
+
+        currencies.add("AUD");
+        currencies.add("CHF");
+        currencies.add("EUR");
+        currencies.add("GBP");
+        currencies.add("HKD");
+        currencies.add("JPY");
+        currencies.add("MXN");
+        currencies.add("NOK");
+        currencies.add("NZD");
+        currencies.add("SEK");
+        currencies.add("USD");
+
+        return currencies;
     }
 
     private String getPath(int img) {

@@ -27,4 +27,14 @@ public class Constants {
         public static final int C_ID_INDEX = 0;
         public static final int C_IMAGE_INDEX = 1;
     }
+
+    public class CURRENCY {
+        public static final String TABLE = "currency";
+
+        public static final String C_ID = BaseColumns._ID;
+        public static final String C_CURRENCY = "currency";
+
+        public static final int C_ID_INDEX = 0;
+        public static final int C_CURRENCY_INDEX = 1;
+    }
 }
