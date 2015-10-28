@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import mx.shellcore.android.micontador.builders.CategoryImageBuilder;
+import mx.shellcore.android.micontador.builders.BuilderCategoryImage;
 import mx.shellcore.android.micontador.model.CategoryImage;
 import mx.shellcore.android.micontador.utils.Constants;
 
@@ -16,11 +16,11 @@ public class DBCategoryImage extends DBBase<CategoryImage> {
 
     @Override
     protected ContentValues createContentValue(CategoryImage categoryImage) {
-        return CategoryImageBuilder.createCategoryImageContent(categoryImage);
+        return BuilderCategoryImage.createCategoryImageContent(categoryImage);
     }
 
     @Override
     protected CategoryImage createBO(Cursor cursor) {
-        return CategoryImageBuilder.createCategoryImage(cursor);
+        return BuilderCategoryImage.createCategoryImage(cursor);
     }
 }

@@ -7,7 +7,7 @@ import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.model.CategoryImage;
 import mx.shellcore.android.micontador.utils.Constants;
 
-public class CategoryBuilder {
+public class BuilderCategory {
 
     public static ContentValues createCategoryContent(Category category) {
         ContentValues values = new ContentValues();

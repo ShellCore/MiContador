@@ -6,7 +6,7 @@ import android.database.Cursor;
 import mx.shellcore.android.micontador.model.CategoryImage;
 import mx.shellcore.android.micontador.utils.Constants;
 
-public class CategoryImageBuilder {
+public class BuilderCategoryImage {
 
     public static ContentValues createCategoryImageContent(CategoryImage categoryImage) {
         ContentValues values = new ContentValues();
