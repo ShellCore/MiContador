@@ -62,7 +62,7 @@ public class DBCategory extends DBBase<Category> {
         String sql = "SELECT *"
                 + " FROM " + Constants.CATEGORY.TABLE + " a"
                 + " INNER JOIN " + Constants.CATEGORY_IMAGE.TABLE + " b"
-                + " ON a." + Constants.CATEGORY.C_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
+                + " ON a." + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
                 + " WHERE a." + Constants.CATEGORY.C_ID + " = ?";
 
         database = dbHelper.getReadableDatabase();
