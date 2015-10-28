@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 
-import mx.shellcore.android.micontador.builders.CategoryBuilder;
+import mx.shellcore.android.micontador.builders.BuilderCategory;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.utils.Constants;
 
@@ -18,12 +18,12 @@ public class DBCategory extends DBBase<Category> {
 
     @Override
     protected ContentValues createContentValue(Category category) {
-        return CategoryBuilder.createCategoryContent(category);
+        return BuilderCategory.createCategoryContent(category);
     }
 
     @Override
     protected Category createBO(Cursor cursor) {
-        return CategoryBuilder.createCategory(cursor);
+        return BuilderCategory.createCategory(cursor);
     }
 
     public ArrayList<Category> getAllByTypeFull(int type) {
@@ -45,7 +45,7 @@ public class DBCategory extends DBBase<Category> {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                Category category = CategoryBuilder.createBOComplete(cursor);
+                Category category = BuilderCategory.createBOComplete(cursor);
                 list.add(category);
                 cursor.moveToNext();
             }
@@ -62,14 +62,14 @@ public class DBCategory extends DBBase<Category> {
         String sql = "SELECT *"
                 + " FROM " + Constants.CATEGORY.TABLE + " a"
                 + " INNER JOIN " + Constants.CATEGORY_IMAGE.TABLE + " b"
-                + " ON a." + Constants.CATEGORY.C_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
+                + " ON a." + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
                 + " WHERE a." + Constants.CATEGORY.C_ID + " = ?";
 
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, whereArgs);
 
         if (cursor.moveToFirst()) {
-            return CategoryBuilder.createBOComplete(cursor);
+            return BuilderCategory.createBOComplete(cursor);
         }
         return null;
     }
