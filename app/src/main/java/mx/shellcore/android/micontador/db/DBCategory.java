@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 
-import mx.shellcore.android.micontador.builders.CategoryBuilder;
+import mx.shellcore.android.micontador.builders.BuilderCategory;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.utils.Constants;
 
@@ -18,12 +18,12 @@ public class DBCategory extends DBBase<Category> {
 
     @Override
     protected ContentValues createContentValue(Category category) {
-        return CategoryBuilder.createCategoryContent(category);
+        return BuilderCategory.createCategoryContent(category);
     }
 
     @Override
     protected Category createBO(Cursor cursor) {
-        return CategoryBuilder.createCategory(cursor);
+        return BuilderCategory.createCategory(cursor);
     }
 
     public ArrayList<Category> getAllByTypeFull(int type) {
@@ -45,7 +45,7 @@ public class DBCategory extends DBBase<Category> {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                Category category = CategoryBuilder.createBOComplete(cursor);
+                Category category = BuilderCategory.createBOComplete(cursor);
                 list.add(category);
                 cursor.moveToNext();
             }
@@ -69,7 +69,7 @@ public class DBCategory extends DBBase<Category> {
         Cursor cursor = database.rawQuery(sql, whereArgs);
 
         if (cursor.moveToFirst()) {
-            return CategoryBuilder.createBOComplete(cursor);
+            return BuilderCategory.createBOComplete(cursor);
         }
         return null;
     }
