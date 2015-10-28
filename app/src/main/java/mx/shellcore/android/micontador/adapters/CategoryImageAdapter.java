@@ -1,7 +1,7 @@
 package mx.shellcore.android.micontador.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.CategoryImage;
-import mx.shellcore.android.micontador.utils.Base64Images;
 
 public class CategoryImageAdapter extends RecyclerView.Adapter<CategoryImageAdapter.ViewHolder> {
 
@@ -64,12 +63,7 @@ public class CategoryImageAdapter extends RecyclerView.Adapter<CategoryImageAdap
         }
 
         public void setImgCategoryImage(String image) {
-            Bitmap map = Base64Images.decode(image);
-            if (map != null) {
-                imgCategoryImage.setImageBitmap(map);
-            } else {
-                setDefaultImgCategoryImage();
-            }
+            imgCategoryImage.setImageURI(Uri.parse(image));
         }
 
         public void setDefaultImgCategoryImage() {

@@ -75,7 +75,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void initializeElements() {
-        categories = dbCategory.getAllByType(categoryType);
+        categories = dbCategory.getAllByTypeFull(categoryType);
         categoriesAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
 
         recCategories.setHasFixedSize(true);
@@ -99,6 +99,7 @@ public class CategoriesFragment extends Fragment {
 
     private void updateList() {
         initializeElements();
+        setListeners();
     }
 
     private class CategoryDetailOnClickListener implements CategoriesAdapter.OnItemClickListener {
@@ -107,7 +108,7 @@ public class CategoriesFragment extends Fragment {
         public void onItemClick(View v, int position) {
             Category category = categories.get(position);
             Intent intent = new Intent(getActivity().getApplicationContext(), CategoryDetailActivity.class);
-            intent.putExtra("Category", category);
+            intent.putExtra("Category", category.getId());
             startActivityForResult(intent, 0);
         }
     }

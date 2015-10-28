@@ -26,24 +26,51 @@ public class DBCategory extends DBBase<Category> {
         return CategoryBuilder.createCategory(cursor);
     }
 
-    public ArrayList<Category> getAllByType(int type) {
+    public ArrayList<Category> getAllByTypeFull(int type) {
         ArrayList<Category> list = new ArrayList<>();
 
         String[] whereArgs = new String[] {
                 String.valueOf(type)
         };
 
+        String sql = "SELECT *"
+                + " FROM " + Constants.CATEGORY.TABLE + " a"
+                + " INNER JOIN " + Constants.CATEGORY_IMAGE.TABLE + " b"
+                + " ON a." + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
+                + " WHERE a." + Constants.CATEGORY.C_TYPE + " = ?"
+                + " ORDER BY " + Constants.CATEGORY.C_NAME;
 
         database = dbHelper.getReadableDatabase();
-        Cursor cursor = database.query(Constants.CATEGORY.TABLE, null, Constants.CATEGORY.C_TYPE + "=?", whereArgs, null, null, null);
+        Cursor cursor = database.rawQuery(sql, whereArgs);
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                Category category = createBO(cursor);
+                Category category = CategoryBuilder.createBOComplete(cursor);
                 list.add(category);
                 cursor.moveToNext();
             }
         }
+
         return list;
+    }
+
+    public Category getByIdComplete(int category) {
+        String[] whereArgs = new String[] {
+                String.valueOf(category)
+        };
+
+        String sql = "SELECT *"
+                + " FROM " + Constants.CATEGORY.TABLE + " a"
+                + " INNER JOIN " + Constants.CATEGORY_IMAGE.TABLE + " b"
+                + " ON a." + Constants.CATEGORY.C_ID + " = b." + Constants.CATEGORY_IMAGE.C_ID
+                + " WHERE a." + Constants.CATEGORY.C_ID + " = ?";
+
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery(sql, whereArgs);
+
+        if (cursor.moveToFirst()) {
+            return CategoryBuilder.createBOComplete(cursor);
+        }
+        return null;
     }
 }

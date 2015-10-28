@@ -9,13 +9,13 @@ public class Constants {
 
         public static final String C_ID = BaseColumns._ID;
         public static final String C_NAME = "name";
-        public static final String C_IMAGE = "image";
+        public static final String C_CATEGORY_IMAGE_ID = "category_image_id";
         public static final String C_TYPE = "type";
 
         public static final int C_ID_INDEX = 0;
         public static final int C_NAME_INDEX = 1;
-        public static final int C_IMAGE_INDEX = 2;
-        public static final int C_TYPE_INDEX = 3;
+        public static final int C_TYPE_INDEX = 2;
+        public static final int C_CATEGORY_IMAGE_ID_INDEX = 3;
     }
 
     public class CATEGORY_IMAGE {

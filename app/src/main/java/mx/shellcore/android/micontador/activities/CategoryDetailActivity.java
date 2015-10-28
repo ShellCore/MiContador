@@ -1,12 +1,12 @@
 package mx.shellcore.android.micontador.activities;
 
 import android.app.DialogFragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,12 +25,10 @@ import mx.shellcore.android.micontador.db.DBCategoryImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.model.CategoryImage;
-import mx.shellcore.android.micontador.utils.Base64Images;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
     // Constants
-    public static final String TAG = "Debugging";
     private static final int NUM_COLUMNS = 3;
 
     // Variables
@@ -90,18 +88,18 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
             case R.id.action_add:
                 int msg;
                 category.setName(edtName.getText().toString());
-                Log.d(TAG, category.toString());
-                if (category.getId() != 0) {
-                    dbCategory.update(category, category.getId());
-                    msg = R.string.confirm_update_category;
-                } else {
-                    dbCategory.create(category);
-                    msg = R.string.confirm_save_category;
+                if (validCategory()) {
+                    if (category.getId() != 0) {
+                        dbCategory.update(category, category.getId());
+                        msg = R.string.confirm_update_category;
+                    } else {
+                        dbCategory.create(category);
+                        msg = R.string.confirm_save_category;
+                    }
+                    setResult(RESULT_OK);
+                    finish();
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 }
-
-                setResult(RESULT_OK);
-                finish();
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_delete:
                 if (category.getId() != 0) {
@@ -116,6 +114,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         }
 
     }
+
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
@@ -161,11 +160,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     }
 
     private void getCategoryBundle() {
-        category = args.getParcelable("Category");
+        category = dbCategory.getByIdComplete(args.getInt("Category"));
         if (category != null) {
-            if (category.getLogo() != null) {
-                imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
-            }
+            imgImage.setImageURI(Uri.parse(category.getLogo().getImage()));
             edtName.setText(category.getName());
             if (category.getType() == Category.CAT_INCOME) {
                 swType.setChecked(false);
@@ -192,6 +189,18 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         }
     }
 
+    private boolean validCategory() {
+        if (category.getName().isEmpty()) {
+            Toast.makeText(getApplicationContext(), R.string.category_empty_name, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (category.getLogo() == null) {
+            Toast.makeText(getApplicationContext(), R.string.category_empty_image, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     private class OnTypeClickListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
@@ -211,8 +220,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private class OnImageItemClickListener implements CategoryImageAdapter.OnItemClickListener {
         @Override
         public void onItemClick(View v, int position) {
-            category.setLogo(categoryImages.get(position).getImage());
-            imgImage.setImageBitmap(Base64Images.decode(category.getLogo()));
+            category.setLogo(categoryImages.get(position));
+            imgImage.setImageURI(Uri.parse(category.getLogo().getImage()));
         }
     }
 }

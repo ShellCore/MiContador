@@ -15,4 +15,7 @@
     <string name="income">Ingreso</string>
     <string name="expense">Gasto</string>
     <string name="not_elements">No hay elementos almacenados</string>
+    <string name="image_description">Descripción</string>
+    <string name="category_empty_name">Debe escribir un nombre para la categoría</string>
+    <string name="category_empty_image">Debe seleccionar una imagen para la categoría</string>
 </resources>

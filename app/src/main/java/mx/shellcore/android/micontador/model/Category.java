@@ -1,22 +1,19 @@
 package mx.shellcore.android.micontador.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Category implements Parcelable {
+public class Category {
 
     public static final int CAT_INCOME = 1;
     public static final int CAT_EXPENSE = 2;
 
     private int id = 0;
     private String name;
-    private String logo;
+    private CategoryImage logo;
     private int type;
 
     public Category() {
     }
 
-    public Category(int id, String name, String logo, int type) {
+    public Category(int id, String name, CategoryImage logo, int type) {
         this.id = id;
         this.name = name;
         this.logo = logo;
@@ -39,11 +36,11 @@ public class Category implements Parcelable {
         this.name = name;
     }
 
-    public String getLogo() {
+    public CategoryImage getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(CategoryImage logo) {
         this.logo = logo;
     }
 
@@ -53,47 +50,5 @@ public class Category implements Parcelable {
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(logo);
-        dest.writeInt(type);
-    }
-
-    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
-
-        @Override
-        public Category createFromParcel(Parcel source) {
-            return new Category(source);
-        }
-
-        @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
-        }
-    };
-
-    private Category(Parcel source) {
-        id = source.readInt();
-        name = source.readString();
-        logo = source.readString();
-        type = source.readInt();
-    }
-
-    @Override
-    public String toString() {
-        return "category {"
-                + getId() + ", "
-                + getName() + ", "
-                + getType()
-                + "}";
     }
 }
