@@ -62,11 +62,13 @@ public class Constants {
         public static final String C_ID = BaseColumns._ID;
         public static final String C_ACCOUNT_ID = "account_id";
         public static final String C_COURT_DATE = "court_date";
-        public static final String C_LIMIT_PAY_DAYS = "limitPayDays";
+        public static final String C_LIMIT_PAY_DAYS = "limit_pay_days";
+        public static final String C_CREDIT_LIMIT = "credit_limit";
 
         public static final int C_ID_INDEX = 0;
         public static final int C_ACCOUNT_ID_INDEX = 1;
         public static final int C_COURT_DATE_INDEX = 2;
         public static final int C_LIMIT_PAY_DAYS_INDEX = 3;
+        public static final int C_CREDIT_LIMIT_INDEX = 4;
     }
 }

@@ -8,15 +8,17 @@ public class CreditAccount {
     private Account account;
     private Date courtDate;
     private int limitPayDays;
+    private Double creditLimit;
 
     public CreditAccount() {
     }
 
-    public CreditAccount(int id, Account account, Date courtDate, int limitPayDays) {
+    public CreditAccount(int id, Account account, Date courtDate, int limitPayDays, Double creditLimit) {
         this.id = id;
         this.account = account;
         this.courtDate = courtDate;
         this.limitPayDays = limitPayDays;
+        this.creditLimit = creditLimit;
     }
 
     public Account getAccount() {
@@ -49,5 +51,13 @@ public class CreditAccount {
 
     public void setLimitPayDays(int limitPayDays) {
         this.limitPayDays = limitPayDays;
+    }
+
+    public Double getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(Double creditLimit) {
+        this.creditLimit = creditLimit;
     }
 }

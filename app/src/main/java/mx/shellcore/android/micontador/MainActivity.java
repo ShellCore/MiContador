@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import mx.shellcore.android.micontador.fragments.AccountsFragment;
 import mx.shellcore.android.micontador.fragments.CategoriesFragment;
 import mx.shellcore.android.micontador.model.Category;
 
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle bundle = new Bundle();
 
         switch (menuItem.getItemId()) {
+            case R.id.nav_accounts:
+                AccountsFragment accountsFragment = new AccountsFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frame, accountsFragment)
+                        .commit();
+                break;
             case R.id.nav_income:
                 bundle.putInt("CategoryType", Category.CAT_INCOME);
                 toolbar.setTitle(getString(R.string.income));

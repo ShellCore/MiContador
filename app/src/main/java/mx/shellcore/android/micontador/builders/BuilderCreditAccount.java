@@ -19,6 +19,7 @@ public class BuilderCreditAccount {
         values.put(Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID, creditAccount.getAccount().getId());
         values.put(Constants.CREDIT_ACCOUNT.C_COURT_DATE, DateUtils.getString(creditAccount.getCourtDate()));
         values.put(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS, creditAccount.getLimitPayDays());
+        values.put(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT, creditAccount.getCreditLimit());
 
         return values;
     }
@@ -32,6 +33,7 @@ public class BuilderCreditAccount {
         creditAccount.setId(cursor.getInt(Constants.CREDIT_ACCOUNT.C_ID_INDEX));
         creditAccount.setCourtDate(DateUtils.getDate(cursor.getString(Constants.CREDIT_ACCOUNT.C_COURT_DATE_INDEX)));
         creditAccount.setLimitPayDays(cursor.getInt(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS_INDEX));
+        creditAccount.setCreditLimit(cursor.getDouble(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT_INDEX));
 
         creditAccount.setAccount(account);
 

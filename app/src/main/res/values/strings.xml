@@ -18,4 +18,7 @@
     <string name="image_description">Descripción</string>
     <string name="category_empty_name">Debe escribir un nombre para la categoría</string>
     <string name="category_empty_image">Debe seleccionar una imagen para la categoría</string>
+    <string name="accounts">Cuentas</string>
+
+    <string name="not_accounts">No hay cuentas registradas</string>
 </resources>
