@@ -1,8 +1,5 @@
 package mx.shellcore.android.micontador.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 public class Account {
     public static final int OTHER = 0;
     public static final int CREDIT = 1;
@@ -10,22 +7,19 @@ public class Account {
     private int id;
     private String name;
     private int type;
-    private int currency;
-    private BigDecimal beginning_balance;
-    private Date courtDate;
-    private int limitPayDays;
+    private Currency currency;
+    private double beginningBalance;
+
 
     public Account() {
     }
 
-    public Account(int id, String name, int type, int currency, BigDecimal beginning_balance, Date courtDate, int limitPayDays) {
+    public Account(int id, String name, int type, Currency currency, double beginningBalance) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.currency = currency;
-        this.beginning_balance = beginning_balance;
-        this.courtDate = courtDate;
-        this.limitPayDays = limitPayDays;
+        this.beginningBalance = beginningBalance;
     }
 
     public int getId() {
@@ -52,35 +46,19 @@ public class Account {
         this.type = type;
     }
 
-    public int getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(int currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
-    public BigDecimal getBeginning_balance() {
-        return beginning_balance;
+    public double getBeginningBalance() {
+        return beginningBalance;
     }
 
-    public void setBeginning_balance(BigDecimal beginning_balance) {
-        this.beginning_balance = beginning_balance;
-    }
-
-    public Date getCourtDate() {
-        return courtDate;
-    }
-
-    public void setCourtDate(Date courtDate) {
-        this.courtDate = courtDate;
-    }
-
-    public int getLimitPayDays() {
-        return limitPayDays;
-    }
-
-    public void setLimitPayDays(int limitPayDays) {
-        this.limitPayDays = limitPayDays;
+    public void setBeginningBalance(double beginningBalance) {
+        this.beginningBalance = beginningBalance;
     }
 }

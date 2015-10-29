@@ -25,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createCategoryTable());
         db.execSQL(createCategoryImageTable());
         db.execSQL(createCurrencyTable());
+        db.execSQL(createAccountTable());
 
         initializeImages(db);
         initializeCurrencies(db);
@@ -44,7 +45,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " " + Constants.CATEGORY.C_NAME + " TEXT,"
                 + " " + Constants.CATEGORY.C_TYPE + " INT,"
                 + " " + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " INTEGER,"
-                + " FOREIGN KEY(" + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + ") REFERENCES " + Constants.CATEGORY_IMAGE.TABLE + "(" + Constants.CATEGORY_IMAGE.C_ID + ")"
+                + " FOREIGN KEY ( " + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " ) REFERENCES " + Constants.CATEGORY_IMAGE.TABLE + " ( " + Constants.CATEGORY_IMAGE.C_ID + " ) "
                 + " )";
     }
 
@@ -62,6 +63,30 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " " + Constants.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
                 + " " + Constants.CURRENCY.C_CURRENCY + " TEXT"
                 +" )";
+    }
+
+    private String createAccountTable() {
+        return "CREATE TABLE " + Constants.ACCOUNT.TABLE
+                + " ("
+                + " " + Constants.ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + Constants.ACCOUNT.C_NAME + " TEXT,"
+                + " " + Constants.ACCOUNT.C_TYPE + " INT,"
+                + " " + Constants.ACCOUNT.C_CURRENCY_ID + " INTEGER,"
+                + " " + Constants.ACCOUNT.C_BEGINNING_BALANCE + " REAL,"
+                + " FOREIGN KEY ( " + Constants.ACCOUNT.C_CURRENCY_ID + " ) REFERENCES " + Constants.CURRENCY.TABLE + " ( " + Constants.CURRENCY.C_ID + " ) "
+                + " )";
+    }
+
+    private String createCreditTable() {
+        return "CREATE TABLE " + Constants.CREDIT_ACCOUNT.TABLE
+                + " ("
+                + " " + Constants.CREDIT_ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + " INTEGER,"
+                + " " + Constants.CREDIT_ACCOUNT.C_COURT_DATE + " TEXT,"
+                + " " + Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS + " INT,"
+                + " FOREIGN KEY ( " + Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + " ) REFERENCES " + Constants.ACCOUNT.TABLE + " ( " + Constants.ACCOUNT.C_ID + " ) "
+                + " )";
+
     }
 
     private void initializeImages(SQLiteDatabase db) {
