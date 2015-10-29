@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.adapters.CategoryImageAdapter;
+import mx.shellcore.android.micontador.adapters.AdapterCategoryImage;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.db.DBCategoryImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
@@ -37,7 +37,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private Bundle args;
 
     // Adapters
-    private CategoryImageAdapter categoryImageAdapter;
+    private AdapterCategoryImage adapterCategoryImage;
 
     // Services
     private DBCategory dbCategory;
@@ -145,9 +145,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     @SuppressWarnings("ConstantConditions")
     private void initializeElements() {
         categoryImages = dbCategoryImage.getAll();
-        categoryImageAdapter = new CategoryImageAdapter(getApplicationContext(), categoryImages);
+        adapterCategoryImage = new AdapterCategoryImage(getApplicationContext(), categoryImages);
         recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
-        recCategoryImages.setAdapter(categoryImageAdapter);
+        recCategoryImages.setAdapter(adapterCategoryImage);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -156,7 +156,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
 
     private void setListeners() {
         swType.setOnCheckedChangeListener(new OnTypeClickListener());
-        categoryImageAdapter.setOnItemClickListener(new OnImageItemClickListener());
+        adapterCategoryImage.setOnItemClickListener(new OnImageItemClickListener());
     }
 
     private void getCategoryBundle() {
@@ -217,7 +217,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         }
     }
 
-    private class OnImageItemClickListener implements CategoryImageAdapter.OnItemClickListener {
+    private class OnImageItemClickListener implements AdapterCategoryImage.OnItemClickListener {
         @Override
         public void onItemClick(View v, int position) {
             category.setLogo(categoryImages.get(position));

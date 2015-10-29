@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Category;
 
-public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
+public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolder> {
 
     private ArrayList<Category> categories;
     private Context context;
 
     OnItemClickListener onItemClickListener;
 
-    public CategoriesAdapter(Context context, ArrayList<Category> categories) {
+    public AdapterCategories(Context context, ArrayList<Category> categories) {
         this.context = context;
         this.categories = categories;
     }

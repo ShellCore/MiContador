@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.activities.CategoryDetailActivity;
-import mx.shellcore.android.micontador.adapters.CategoriesAdapter;
+import mx.shellcore.android.micontador.adapters.AdapterCategories;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.model.Category;
 
@@ -27,7 +27,7 @@ public class CategoriesFragment extends Fragment {
     private int categoryType;
 
     // Adapters
-    private CategoriesAdapter categoriesAdapter;
+    private AdapterCategories adapterCategories;
 
     // Services
     private DBCategory dbCategory;
@@ -76,10 +76,10 @@ public class CategoriesFragment extends Fragment {
 
     private void initializeElements() {
         categories = dbCategory.getAllByTypeFull(categoryType);
-        categoriesAdapter = new CategoriesAdapter(getActivity().getApplicationContext(), categories);
+        adapterCategories = new AdapterCategories(getActivity().getApplicationContext(), categories);
 
         recCategories.setHasFixedSize(true);
-        recCategories.setAdapter(categoriesAdapter);
+        recCategories.setAdapter(adapterCategories);
         recCategories.setLayoutManager(new LinearLayoutManager(getActivity()));
         recCategories.setItemAnimator(new DefaultItemAnimator());
 
@@ -94,7 +94,7 @@ public class CategoriesFragment extends Fragment {
 
     private void setListeners() {
         addCategory.setOnClickListener(new AddCategoryOnClickListener());
-        categoriesAdapter.setOnItemClickListener(new CategoryDetailOnClickListener());
+        adapterCategories.setOnItemClickListener(new CategoryDetailOnClickListener());
     }
 
     private void updateList() {
@@ -102,7 +102,7 @@ public class CategoriesFragment extends Fragment {
         setListeners();
     }
 
-    private class CategoryDetailOnClickListener implements CategoriesAdapter.OnItemClickListener {
+    private class CategoryDetailOnClickListener implements AdapterCategories.OnItemClickListener {
 
         @Override
         public void onItemClick(View v, int position) {
