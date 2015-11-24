@@ -1,23 +1,21 @@
 package mx.shellcore.android.micontador.model;
 
-import java.util.Date;
-
 public class CreditAccount {
 
     private int id;
     private Account account;
-    private Date courtDate;
-    private int limitPayDays;
+    private int courtDay;
+    private int limitPayDay;
     private Double creditLimit;
 
     public CreditAccount() {
     }
 
-    public CreditAccount(int id, Account account, Date courtDate, int limitPayDays, Double creditLimit) {
+    public CreditAccount(int id, Account account, int courtDay, int limitPayDay, Double creditLimit) {
         this.id = id;
         this.account = account;
-        this.courtDate = courtDate;
-        this.limitPayDays = limitPayDays;
+        this.courtDay = courtDay;
+        this.limitPayDay = limitPayDay;
         this.creditLimit = creditLimit;
     }
 
@@ -29,12 +27,12 @@ public class CreditAccount {
         this.account = account;
     }
 
-    public Date getCourtDate() {
-        return courtDate;
+    public int getCourtDay() {
+        return courtDay;
     }
 
-    public void setCourtDate(Date courtDate) {
-        this.courtDate = courtDate;
+    public void setCourtDay(int courtDay) {
+        this.courtDay = courtDay;
     }
 
     public int getId() {
@@ -45,12 +43,12 @@ public class CreditAccount {
         this.id = id;
     }
 
-    public int getLimitPayDays() {
-        return limitPayDays;
+    public int getLimitPayDay() {
+        return limitPayDay;
     }
 
-    public void setLimitPayDays(int limitPayDays) {
-        this.limitPayDays = limitPayDays;
+    public void setLimitPayDay(int limitPayDay) {
+        this.limitPayDay = limitPayDay;
     }
 
     public Double getCreditLimit() {

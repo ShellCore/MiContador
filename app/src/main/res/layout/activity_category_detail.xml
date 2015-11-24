@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+
         android:orientation="vertical">
 
         <LinearLayout
@@ -45,13 +46,27 @@
                 android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/edt_name"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_width="0dip"
+                    android:layout_height="0dip"
+                    android:id="@+id/dummyView"/>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/category"
-                    android:inputType="textCapSentences"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/category"
+                        android:inputType="textCapSentences"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Switch
                     android:id="@+id/sw_type"

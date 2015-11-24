@@ -12,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
+import mx.shellcore.android.micontador.activities.AccountDetailActivity;
 import mx.shellcore.android.micontador.adapters.AdapterAccounts;
 import mx.shellcore.android.micontador.db.DBAccount;
 import mx.shellcore.android.micontador.model.Account;
@@ -102,8 +102,8 @@ public class AccountsFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Clicked Add Account", Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), AccountDetailActivity.class);
+            startActivityForResult(intent, 0);
         }
     }
 
@@ -112,8 +112,9 @@ public class AccountsFragment extends Fragment {
         @Override
         public void onItemClick(View view, int position) {
             Account account = accounts.get(position);
-            Toast.makeText(getActivity(), "Clicked element " + position + ": " + account.getName(), Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = new Intent(getActivity().getApplicationContext(), AccountDetailActivity.class);
+            intent.putExtra("Account", account.getId());
+            startActivityForResult(intent, 0);
         }
     }
 }

@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".activities.CategoryDetailActivity" >
         </activity>
+        <activity android:name=".activities.AccountDetailActivity" >
+        </activity>
     </application>
 
 </manifest>

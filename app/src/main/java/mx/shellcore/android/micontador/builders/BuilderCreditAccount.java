@@ -6,7 +6,6 @@ import android.database.Cursor;
 import mx.shellcore.android.micontador.model.Account;
 import mx.shellcore.android.micontador.model.CreditAccount;
 import mx.shellcore.android.micontador.utils.Constants;
-import mx.shellcore.android.micontador.utils.DateUtils;
 
 public class BuilderCreditAccount {
 
@@ -17,8 +16,8 @@ public class BuilderCreditAccount {
             values.put(Constants.CREDIT_ACCOUNT.C_ID, creditAccount.getId());
         }
         values.put(Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID, creditAccount.getAccount().getId());
-        values.put(Constants.CREDIT_ACCOUNT.C_COURT_DATE, DateUtils.getString(creditAccount.getCourtDate()));
-        values.put(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS, creditAccount.getLimitPayDays());
+        values.put(Constants.CREDIT_ACCOUNT.C_COURT_DATE, creditAccount.getCourtDay());
+        values.put(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS, creditAccount.getLimitPayDay());
         values.put(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT, creditAccount.getCreditLimit());
 
         return values;
@@ -31,8 +30,8 @@ public class BuilderCreditAccount {
         account.setId(cursor.getInt(Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID_INDEX));
 
         creditAccount.setId(cursor.getInt(Constants.CREDIT_ACCOUNT.C_ID_INDEX));
-        creditAccount.setCourtDate(DateUtils.getDate(cursor.getString(Constants.CREDIT_ACCOUNT.C_COURT_DATE_INDEX)));
-        creditAccount.setLimitPayDays(cursor.getInt(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS_INDEX));
+        creditAccount.setCourtDay(cursor.getInt(Constants.CREDIT_ACCOUNT.C_COURT_DATE_INDEX));
+        creditAccount.setLimitPayDay(cursor.getInt(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS_INDEX));
         creditAccount.setCreditLimit(cursor.getDouble(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT_INDEX));
 
         creditAccount.setAccount(account);

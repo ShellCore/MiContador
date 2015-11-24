@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (menuItem.getItemId()) {
             case R.id.nav_accounts:
+                toolbar.setTitle(getString(R.string.accounts));
                 AccountsFragment accountsFragment = new AccountsFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frame, accountsFragment)

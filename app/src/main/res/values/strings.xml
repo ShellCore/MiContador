@@ -21,4 +21,11 @@
     <string name="accounts">Cuentas</string>
 
     <string name="not_accounts">No hay cuentas registradas</string>
+    <string name="account">Cuenta</string>
+    <string name="credit">Crédito</string>
+    <string name="currency_symbol">$</string>
+    <string name="credit_limit">Límite credito</string>
+    <string name="court_day">Día de corte</string>
+    <string name="limit_day">Día límite de pago</string>
+    <string name="beginning_balance">Balance inicial</string>
 </resources>

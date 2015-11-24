@@ -222,17 +222,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private ArrayList<String> getCurrencies() {
         ArrayList<String> currencies = new ArrayList<>();
 
+        currencies.add("USD");
+        currencies.add("SEK");
+        currencies.add("HKD");
         currencies.add("AUD");
         currencies.add("CHF");
-        currencies.add("EUR");
+        currencies.add("NZD");
         currencies.add("GBP");
-        currencies.add("HKD");
-        currencies.add("JPY");
         currencies.add("MXN");
         currencies.add("NOK");
-        currencies.add("NZD");
-        currencies.add("SEK");
-        currencies.add("USD");
+        currencies.add("EUR");
+        currencies.add("JPY");
 
         return currencies;
     }

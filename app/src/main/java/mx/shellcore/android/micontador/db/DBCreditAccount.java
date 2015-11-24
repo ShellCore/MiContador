@@ -23,4 +23,13 @@ public class DBCreditAccount extends DBBase<CreditAccount> {
     protected CreditAccount createBO(Cursor cursor) {
         return BuilderCreditAccount.createCreditAccount(cursor);
     }
+
+    public CreditAccount getByAccountId(int idAccount) {
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.query(Constants.CREDIT_ACCOUNT.TABLE, null, Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + "=" + idAccount, null, null, null, null);
+        if (!cursor.moveToFirst()) {
+            return null;
+        }
+        return BuilderCreditAccount.createCreditAccount(cursor);
+    }
 }
