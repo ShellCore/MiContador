@@ -14,6 +14,7 @@ public class BuilderCurrency {
             values.put(Constants.CURRENCY.C_ID, currency.getId());
         }
         values.put(Constants.CURRENCY.C_CURRENCY, currency.getCurrency());
+        values.put(Constants.CURRENCY.C_SYMBOL, currency.getSymbol());
 
         return values;
     }
@@ -23,6 +24,7 @@ public class BuilderCurrency {
 
         currency.setId(cursor.getInt(Constants.CURRENCY.C_ID_INDEX));
         currency.setCurrency(cursor.getString(Constants.CURRENCY.C_CURRENCY_INDEX));
+        currency.setSymbol(cursor.getString(Constants.CURRENCY.C_SYMBOL_INDEX));
 
         return currency;
     }

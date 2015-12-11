@@ -9,6 +9,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
+import mx.shellcore.android.micontador.model.Currency;
 import mx.shellcore.android.micontador.utils.Constants;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -61,7 +62,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return "CREATE TABLE " + Constants.CURRENCY.TABLE
                 + " ("
                 + " " + Constants.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
-                + " " + Constants.CURRENCY.C_CURRENCY + " TEXT"
+                + " " + Constants.CURRENCY.C_CURRENCY + " TEXT,"
+                + " " + Constants.CURRENCY.C_SYMBOL + " TEXT"
                 +" )";
     }
 
@@ -107,18 +109,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void initializeCurrencies(SQLiteDatabase db) {
-        ArrayList<String> currencies = getCurrencies();
+        ArrayList<Currency> currencies = getCurrencies();
 
-        for (String currency : currencies) {
+        for (Currency currency : currencies) {
             String sql = "INSERT INTO " + Constants.CURRENCY.TABLE
                     + " ("
                     + Constants.CURRENCY.C_CURRENCY
                     + " )"
-                    + " VALUES (?)";
+                    + " VALUES (?, ?)";
 
             SQLiteStatement insertStatement = db.compileStatement(sql);
             insertStatement.clearBindings();
-            insertStatement.bindString(1, currency);
+            insertStatement.bindString(1, currency.getCurrency());
+            insertStatement.bindString(2, currency.getSymbol());
             insertStatement.executeInsert();
         }
     }
@@ -219,20 +222,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return images;
     }
 
-    private ArrayList<String> getCurrencies() {
-        ArrayList<String> currencies = new ArrayList<>();
+    private ArrayList<Currency> getCurrencies() {
+        ArrayList <Currency> currencies = new ArrayList<>();
 
-        currencies.add("USD");
-        currencies.add("SEK");
-        currencies.add("HKD");
-        currencies.add("AUD");
-        currencies.add("CHF");
-        currencies.add("NZD");
-        currencies.add("GBP");
-        currencies.add("MXN");
-        currencies.add("NOK");
-        currencies.add("EUR");
-        currencies.add("JPY");
+        currencies.add(new Currency(0, "USD", "$"));
+        currencies.add(new Currency(0, "SEK", "kr"));
+        currencies.add(new Currency(0, "HKD", "$"));
+        currencies.add(new Currency(0, "AUD", "$"));
+        currencies.add(new Currency(0, "CHF", "CHF"));
+        currencies.add(new Currency(0, "NZD", "$"));
+        currencies.add(new Currency(0, "GBP", "£"));
+        currencies.add(new Currency(0, "MXN", "$"));
+        currencies.add(new Currency(0, "NOK", "kr"));
+        currencies.add(new Currency(0, "EUR", "€"));
+        currencies.add(new Currency(0, "JPY", "¥"));
 
         return currencies;
     }

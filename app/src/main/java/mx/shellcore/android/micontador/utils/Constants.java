@@ -33,9 +33,11 @@ public class Constants {
 
         public static final String C_ID = BaseColumns._ID;
         public static final String C_CURRENCY = "currency";
+        public static final String C_SYMBOL = "symbol";
 
         public static final int C_ID_INDEX = 0;
         public static final int C_CURRENCY_INDEX = 1;
+        public static final int C_SYMBOL_INDEX = 2;
     }
 
     public class ACCOUNT {

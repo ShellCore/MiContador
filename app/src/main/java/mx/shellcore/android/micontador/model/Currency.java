@@ -4,13 +4,14 @@ public class Currency {
 
     private int id;
     private String currency;
+    private String symbol;
 
-    public Currency() {
-    }
+    public Currency() {}
 
-    public Currency(int id, String currency) {
+    public Currency(int id, String currency, String symbol) {
         this.id = id;
         this.currency = currency;
+        this.symbol = symbol;
     }
 
     public int getId() {
@@ -27,6 +28,14 @@ public class Currency {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     @Override
