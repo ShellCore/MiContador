@@ -114,7 +114,8 @@ public class DBHelper extends SQLiteOpenHelper {
         for (Currency currency : currencies) {
             String sql = "INSERT INTO " + Constants.CURRENCY.TABLE
                     + " ("
-                    + Constants.CURRENCY.C_CURRENCY
+                    + Constants.CURRENCY.C_CURRENCY + ", "
+                    + Constants.CURRENCY.C_SYMBOL
                     + " )"
                     + " VALUES (?, ?)";
 

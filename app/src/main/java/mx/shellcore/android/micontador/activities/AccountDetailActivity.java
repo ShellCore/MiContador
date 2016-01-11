@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     private ImageView imgAccount;
     private LinearLayout linCredit;
     private Spinner spnCurrencies;
+    private TextView txtCurrencySymbol;
 
 
     @Override
@@ -92,6 +94,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         imgAccount = (ImageView) findViewById(R.id.img_account);
         linCredit = (LinearLayout) findViewById(R.id.lin_credit);
         spnCurrencies = (Spinner) findViewById(R.id.spn_currencies);
+        txtCurrencySymbol = (TextView) findViewById(R.id.txt_currency_symbol);
     }
 
     public void initializeElements() {
@@ -204,6 +207,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             account.setCurrency(currencies.get(position));
+            txtCurrencySymbol.setText(account.getCurrency().getSymbol());
         }
 
         @Override
