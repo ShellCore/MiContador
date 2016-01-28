@@ -7,13 +7,13 @@ public class Category {
 
     private int id = 0;
     private String name;
-    private CategoryImage logo;
+    private Image logo;
     private int type;
 
     public Category() {
     }
 
-    public Category(int id, String name, CategoryImage logo, int type) {
+    public Category(int id, String name, Image logo, int type) {
         this.id = id;
         this.name = name;
         this.logo = logo;
@@ -36,11 +36,11 @@ public class Category {
         this.name = name;
     }
 
-    public CategoryImage getLogo() {
+    public Image getLogo() {
         return logo;
     }
 
-    public void setLogo(CategoryImage logo) {
+    public void setLogo(Image logo) {
         this.logo = logo;
     }
 

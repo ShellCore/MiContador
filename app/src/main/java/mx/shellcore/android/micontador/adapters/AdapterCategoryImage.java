@@ -14,16 +14,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.model.CategoryImage;
+import mx.shellcore.android.micontador.model.Image;
 
 public class AdapterCategoryImage extends RecyclerView.Adapter<AdapterCategoryImage.ViewHolder> {
 
-    private ArrayList<CategoryImage> images;
+    private ArrayList<Image> images;
     private Context context;
 
     OnItemClickListener onItemClickListener;
 
-    public AdapterCategoryImage(Context context, ArrayList<CategoryImage> images) {
+    public AdapterCategoryImage(Context context, ArrayList<Image> images) {
         this.context = context;
         this.images = images;
     }
@@ -37,10 +37,10 @@ public class AdapterCategoryImage extends RecyclerView.Adapter<AdapterCategoryIm
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CategoryImage categoryImage = images.get(position);
+        Image image = images.get(position);
 
-        if (categoryImage.getImage() != null) {
-            holder.setImgCategoryImage(categoryImage.getImage());
+        if (image.getImage() != null) {
+            holder.setImgCategoryImage(image.getImage());
         } else {
             holder.setDefaultImgCategoryImage();
         }

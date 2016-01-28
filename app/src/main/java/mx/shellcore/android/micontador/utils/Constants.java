@@ -18,14 +18,16 @@ public class Constants {
         public static final int C_CATEGORY_IMAGE_ID_INDEX = 3;
     }
 
-    public class CATEGORY_IMAGE {
-        public static final String TABLE = "category_image";
+    public class IMAGE {
+        public static final String TABLE = "image";
 
         public static final String C_ID = BaseColumns._ID;
         public static final String C_IMAGE = "image";
+        public static final String C_TYPE = "type";
 
         public static final int C_ID_INDEX = 0;
         public static final int C_IMAGE_INDEX = 1;
+        public static final int C_TYPE_INDEX = 2;
     }
 
     public class CURRENCY {
@@ -48,7 +50,6 @@ public class Constants {
         public static final String C_TYPE = "type";
         public static final String C_CURRENCY_ID = "currency";
         public static final String C_BEGINNING_BALANCE = "beginning_balance";
-
 
         public static final int C_ID_INDEX = 0;
         public static final int C_NAME_INDEX = 1;

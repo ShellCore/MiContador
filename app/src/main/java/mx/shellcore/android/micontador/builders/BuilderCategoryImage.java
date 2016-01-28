@@ -3,28 +3,30 @@ package mx.shellcore.android.micontador.builders;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import mx.shellcore.android.micontador.model.CategoryImage;
+import mx.shellcore.android.micontador.R;
+import mx.shellcore.android.micontador.model.Image;
 import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.PathUtils;
 
 public class BuilderCategoryImage {
 
-    public static ContentValues createCategoryImageContent(CategoryImage categoryImage) {
+    public static ContentValues createCategoryImageContent(Image image) {
         ContentValues values = new ContentValues();
 
-        if (categoryImage.getId() != 0) {
-            values.put(Constants.CATEGORY_IMAGE.C_ID, categoryImage.getId());
+        if (image.getId() != 0) {
+            values.put(Constants.IMAGE.C_ID, image.getId());
         }
-        values.put(Constants.CATEGORY_IMAGE.C_IMAGE, categoryImage.getImage());
+        values.put(Constants.IMAGE.C_IMAGE, image.getImage());
 
         return values;
     }
 
-    public static CategoryImage createCategoryImage(Cursor cursor) {
-        CategoryImage categoryImage = new CategoryImage();
+    public static Image createCategoryImage(Cursor cursor) {
+        Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
 
-        categoryImage.setId(cursor.getInt(Constants.CATEGORY_IMAGE.C_ID_INDEX));
-        categoryImage.setImage(cursor.getString(Constants.CATEGORY_IMAGE.C_IMAGE_INDEX));
+        image.setId(cursor.getInt(Constants.IMAGE.C_ID_INDEX));
+        image.setImage(cursor.getString(Constants.IMAGE.C_IMAGE_INDEX));
 
-        return categoryImage;
+        return image;
     }
 }

@@ -3,9 +3,11 @@ package mx.shellcore.android.micontador.builders;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Category;
-import mx.shellcore.android.micontador.model.CategoryImage;
+import mx.shellcore.android.micontador.model.Image;
 import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.PathUtils;
 
 public class BuilderCategory {
 
@@ -34,10 +36,10 @@ public class BuilderCategory {
         category.setName(cursor.getString(Constants.CATEGORY.C_NAME_INDEX));
         category.setType(cursor.getInt(Constants.CATEGORY.C_TYPE_INDEX));
 
-        if (cursor.getInt(Constants.CATEGORY_IMAGE.C_ID_INDEX) != 0) {
-            CategoryImage categoryImage = new CategoryImage();
-            categoryImage.setId(cursor.getInt(Constants.CATEGORY.C_CATEGORY_IMAGE_ID_INDEX));
-            category.setLogo(categoryImage);
+        if (cursor.getInt(Constants.IMAGE.C_ID_INDEX) != 0) {
+            Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
+            image.setId(cursor.getInt(Constants.CATEGORY.C_CATEGORY_IMAGE_ID_INDEX));
+            category.setLogo(image);
         }
 
         return category;
@@ -50,11 +52,11 @@ public class BuilderCategory {
         category.setName(cursor.getString(Constants.CATEGORY.C_NAME_INDEX));
         category.setType(cursor.getInt(Constants.CATEGORY.C_TYPE_INDEX));
 
-        if (cursor.getInt(Constants.CATEGORY_IMAGE.C_ID_INDEX) != 0) {
-            CategoryImage categoryImage = new CategoryImage();
-            categoryImage.setId(cursor.getInt(4));
-            categoryImage.setImage(cursor.getString(5));
-            category.setLogo(categoryImage);
+        if (cursor.getInt(Constants.IMAGE.C_ID_INDEX) != 0) {
+            Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
+            image.setId(cursor.getInt(4));
+            image.setImage(cursor.getString(5));
+            category.setLogo(image);
         }
 
         return category;

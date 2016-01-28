@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.adapters.AdapterCategoryImage;
 import mx.shellcore.android.micontador.db.DBCategory;
-import mx.shellcore.android.micontador.db.DBCategoryImage;
+import mx.shellcore.android.micontador.db.DBImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
-import mx.shellcore.android.micontador.model.CategoryImage;
+import mx.shellcore.android.micontador.model.Image;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
@@ -32,7 +32,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private static final int NUM_COLUMNS = 3;
 
     // Variables
-    private ArrayList<CategoryImage> categoryImages;
+    private ArrayList<Image> images;
     private Category category;
     private Bundle args;
 
@@ -41,7 +41,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
 
     // Services
     private DBCategory dbCategory;
-    private DBCategoryImage dbCategoryImage;
+    private DBImage dbImage;
 
     // Components
     private DeleteDialogFragment deleteDialogFragment;
@@ -111,7 +111,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
 
@@ -138,13 +137,13 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
 
     private void getServices() {
         dbCategory = new DBCategory(getApplicationContext());
-        dbCategoryImage = new DBCategoryImage(getApplicationContext());
+        dbImage = new DBImage(getApplicationContext());
     }
 
     @SuppressWarnings("ConstantConditions")
     private void initializeElements() {
-        categoryImages = dbCategoryImage.getAll();
-        adapterCategoryImage = new AdapterCategoryImage(getApplicationContext(), categoryImages);
+        images = dbImage.getAllByType(Image.IMG_CATEGORY);
+        adapterCategoryImage = new AdapterCategoryImage(getApplicationContext(), images);
         recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
         recCategoryImages.setAdapter(adapterCategoryImage);
         setSupportActionBar(toolbar);
@@ -219,7 +218,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private class OnImageItemClickListener implements AdapterCategoryImage.OnItemClickListener {
         @Override
         public void onItemClick(View v, int position) {
-            category.setLogo(categoryImages.get(position));
+            category.setLogo(images.get(position));
             imgImage.setImageURI(Uri.parse(category.getLogo().getImage()));
         }
     }
