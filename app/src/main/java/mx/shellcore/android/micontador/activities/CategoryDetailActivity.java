@@ -45,7 +45,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
 
     // Components
     private DeleteDialogFragment deleteDialogFragment;
-
     private Toolbar toolbar;
     private EditText edtName;
     private Switch swType;

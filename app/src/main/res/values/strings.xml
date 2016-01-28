@@ -28,4 +28,7 @@
     <string name="court_day">Día de corte</string>
     <string name="limit_day">Día límite de pago</string>
     <string name="beginning_balance">Balance inicial</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
