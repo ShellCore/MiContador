@@ -3,6 +3,7 @@ package mx.shellcore.android.micontador.dialogs;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.adapters.AdapterCategoryImage;
+import mx.shellcore.android.micontador.adapters.AdapterImage;
 import mx.shellcore.android.micontador.db.DBImage;
 import mx.shellcore.android.micontador.model.Image;
 
@@ -24,7 +25,7 @@ public class AccountSelectionDialogFragment extends DialogFragment {
     private ArrayList<Image> accountImages;
 
     // Adapters
-    private AdapterCategoryImage adapterCategoryImage;
+    private AdapterImage adapterImage;
 
     // Services
     private DBImage dbImage;
@@ -50,15 +51,18 @@ public class AccountSelectionDialogFragment extends DialogFragment {
     }
 
     private void getSetvices() {
-        // TODO
+        dbImage = new DBImage(getActivity().getApplicationContext());
     }
 
     private void getComponents() {
-        // TODO
+        recAccountImages = (RecyclerView) getActivity().findViewById(R.id.rec_account_images);
     }
 
     private void initializeElements() {
-        // TODO
+        accountImages = dbImage.getAllByType(Image.IMG_CATEGORY);
+        adapterImage = new AdapterImage(getActivity().getApplicationContext(), accountImages);
+        recAccountImages.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), NUM_COLUMNS));
+        recAccountImages.setAdapter(adapterImage);
     }
 
     private void setListeners() {

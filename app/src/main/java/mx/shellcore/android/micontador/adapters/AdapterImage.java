@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Image;
 
-public class AdapterCategoryImage extends RecyclerView.Adapter<AdapterCategoryImage.ViewHolder> {
+public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> {
 
     private ArrayList<Image> images;
     private Context context;
 
     OnItemClickListener onItemClickListener;
 
-    public AdapterCategoryImage(Context context, ArrayList<Image> images) {
+    public AdapterImage(Context context, ArrayList<Image> images) {
         this.context = context;
         this.images = images;
     }

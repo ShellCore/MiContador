@@ -224,7 +224,13 @@ public class DBHelper extends SQLiteOpenHelper {
         images.add(new Image(PathUtils.getImagePath(R.drawable.xylophone), Image.IMG_CATEGORY));
         images.add(new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY));
 
-
+        images.add(new Image(PathUtils.getImagePath(R.drawable.card_01), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.card_02), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.cash), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.check), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.coins), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.moneybox), Image.IMG_ACCOUNT));
+        images.add(new Image(PathUtils.getImagePath(R.drawable.safe), Image.IMG_ACCOUNT));
 
         return images;
     }

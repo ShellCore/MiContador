@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.adapters.AdapterCategoryImage;
+import mx.shellcore.android.micontador.adapters.AdapterImage;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.db.DBImage;
 import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
@@ -37,7 +37,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private Bundle args;
 
     // Adapters
-    private AdapterCategoryImage adapterCategoryImage;
+    private AdapterImage adapterImage;
 
     // Services
     private DBCategory dbCategory;
@@ -143,9 +143,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     @SuppressWarnings("ConstantConditions")
     private void initializeElements() {
         images = dbImage.getAllByType(Image.IMG_CATEGORY);
-        adapterCategoryImage = new AdapterCategoryImage(getApplicationContext(), images);
+        adapterImage = new AdapterImage(getApplicationContext(), images);
         recCategoryImages.setLayoutManager(new GridLayoutManager(getApplicationContext(), NUM_COLUMNS));
-        recCategoryImages.setAdapter(adapterCategoryImage);
+        recCategoryImages.setAdapter(adapterImage);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -154,7 +154,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
 
     private void setListeners() {
         swType.setOnCheckedChangeListener(new OnTypeClickListener());
-        adapterCategoryImage.setOnItemClickListener(new OnImageItemClickListener());
+        adapterImage.setOnItemClickListener(new OnImageItemClickListener());
     }
 
     private void getCategoryBundle() {
@@ -215,7 +215,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         }
     }
 
-    private class OnImageItemClickListener implements AdapterCategoryImage.OnItemClickListener {
+    private class OnImageItemClickListener implements AdapterImage.OnItemClickListener {
         @Override
         public void onItemClick(View v, int position) {
             category.setLogo(images.get(position));
