@@ -1,4 +1,4 @@
-package mx.shellcore.android.micontador.dialogs;
+package mx.shellcore.android.micontador.ui.dialogs;
 
 
 import android.app.DialogFragment;
@@ -15,8 +15,9 @@ import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.adapters.AdapterImage;
 import mx.shellcore.android.micontador.db.DBImage;
 import mx.shellcore.android.micontador.model.Image;
+import mx.shellcore.android.micontador.ui.activities.AccountDetailActivity;
 
-public class AccountSelectionDialogFragment extends DialogFragment {
+public class AccountImageSelectionDialogFragment extends DialogFragment {
 
     // Constants
     private static final int NUM_COLUMNS = 3;
@@ -31,9 +32,10 @@ public class AccountSelectionDialogFragment extends DialogFragment {
     private DBImage dbImage;
 
     // Components
+    private AccountImageSelectionDialogFragment dialog;
     private RecyclerView recAccountImages;
 
-    public AccountSelectionDialogFragment() {}
+    public AccountImageSelectionDialogFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,28 +46,40 @@ public class AccountSelectionDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getSetvices();
-        getComponents();
+        this.dialog = this;
+        getServices();
+        getComponents(view);
         initializeElements();
         setListeners();
     }
 
-    private void getSetvices() {
+    private void getServices() {
         dbImage = new DBImage(getActivity().getApplicationContext());
     }
 
-    private void getComponents() {
-        recAccountImages = (RecyclerView) getActivity().findViewById(R.id.rec_account_images);
+    private void getComponents(View view) {
+        recAccountImages = (RecyclerView) view.findViewById(R.id.rec_account_images);
     }
 
     private void initializeElements() {
-        accountImages = dbImage.getAllByType(Image.IMG_CATEGORY);
+        accountImages = dbImage.getAllByType(Image.IMG_ACCOUNT);
         adapterImage = new AdapterImage(getActivity().getApplicationContext(), accountImages);
         recAccountImages.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), NUM_COLUMNS));
         recAccountImages.setAdapter(adapterImage);
     }
 
     private void setListeners() {
-        // TODO
+        adapterImage.setOnItemClickListener(new OnImageItemClickListener());
+    }
+
+    private class OnImageItemClickListener implements AdapterImage.OnItemClickListener {
+
+        @Override
+        public void onItemClick(View v, int position) {
+            Image img = accountImages.get(position);
+            AccountDetailActivity activity = (AccountDetailActivity) getActivity();
+            activity.setImageSelected(img);
+            dialog.dismiss();
+        }
     }
 }

@@ -1,10 +1,14 @@
-package mx.shellcore.android.micontador.activities;
+package mx.shellcore.android.micontador.ui.activities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +29,8 @@ import mx.shellcore.android.micontador.db.DBCurrency;
 import mx.shellcore.android.micontador.model.Account;
 import mx.shellcore.android.micontador.model.CreditAccount;
 import mx.shellcore.android.micontador.model.Currency;
+import mx.shellcore.android.micontador.model.Image;
+import mx.shellcore.android.micontador.ui.dialogs.AccountImageSelectionDialogFragment;
 
 public class AccountDetailActivity extends AppCompatActivity {
 
@@ -59,7 +65,6 @@ public class AccountDetailActivity extends AppCompatActivity {
     private Spinner spnCurrencies;
     private TextView txtCurrencySymbol;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,51 @@ public class AccountDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_category, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_add:
+                account.setName(edtAccount.getText().toString());
+                account.setCurrency((Currency) spnCurrencies.getSelectedItem());
+                account.setBeginningBalance(Double.parseDouble(edtBeginningBalance.getText().toString()));
+                if (chkCredit.isActivated()) {
+                    account.setType(Account.CREDIT);
+                    creditAccount.setCourtDay(Integer.parseInt(edtCourtDay.getText().toString()));
+                    creditAccount.setLimitPayDay(Integer.parseInt(edtLimitDay.getText().toString()));
+                    creditAccount.setCreditLimit(Double.valueOf(edtCreditLimit.getText().toString()));
+                    creditAccount.setAccount(account);
+                } else {
+                    account.setType(Account.OTHER);
+                }
+                if (validAccount()) {
+                    // TODO Falta almacenar la cuenta y la cuenta de crédito
+                }
+                Toast.makeText(getApplicationContext(), "Add pressed", Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            case R.id.action_delete:
+                if (account.getId() != 0) {
+                    Toast.makeText(getApplicationContext(), "Delete pressed", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    finish();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getServices() {
@@ -136,11 +186,11 @@ public class AccountDetailActivity extends AppCompatActivity {
     }
 
     private void getAccount() {
-        account = dbAccount.getById(args.getInt("Account"));
+        account = dbAccount.getByIdComplete(args.getInt("Account"));
         if (account != null) {
             edtAccount.setText(account.getName());
             edtBeginningBalance.setText(String.format("%f", account.getBeginningBalance()));
-            imgAccount.setImageURI(Uri.parse(account.getImage()));
+            imgAccount.setImageURI(Uri.parse(account.getImage().getImage()));
             setSelectedCurrency(account.getCurrency());
 
             creditAccount = dbCreditAccount.getByAccountId(account.getId());
@@ -181,13 +231,23 @@ public class AccountDetailActivity extends AppCompatActivity {
         creditAccount.setAccount(null);
     }
 
+    public void setImageSelected(Image img) {
+        account.setImage(img);
+        imgAccount.setImageURI(Uri.parse(account.getImage().getImage()));
+    }
+
     private class OnAccountImageClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            // TODO Falta implementar array de imagenes a seleccionar
-            Toast.makeText(getApplicationContext(), "Image clicked", Toast.LENGTH_SHORT)
-                    .show();
+            AccountImageSelectionDialogFragment dialogFragment = new AccountImageSelectionDialogFragment();
+            dialogFragment.show(getFragmentManager(), "imageDialog");
+
         }
+    }
+
+    private boolean validAccount() {
+        // TODO falta definir la validación de los datos de la cuenta y cuenta de crédito.
+        return false;
     }
 
     private class OnCreditCheckClickListener implements View.OnClickListener {

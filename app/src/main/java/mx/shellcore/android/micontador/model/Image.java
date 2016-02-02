@@ -9,6 +9,9 @@ public class Image {
     private String image;
     private int type;
 
+    public Image() {
+    }
+
     public Image(String image, int type) {
         setImage(image);
         setType(type);

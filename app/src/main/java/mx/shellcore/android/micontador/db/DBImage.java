@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import mx.shellcore.android.micontador.builders.BuilderCategoryImage;
+import mx.shellcore.android.micontador.builders.BuilderImage;
 import mx.shellcore.android.micontador.model.Image;
 import mx.shellcore.android.micontador.utils.Constants;
 
@@ -19,12 +18,12 @@ public class DBImage extends DBBase<Image> {
 
     @Override
     protected ContentValues createContentValue(Image image) {
-        return BuilderCategoryImage.createCategoryImageContent(image);
+        return BuilderImage.createCategoryImageContent(image);
     }
 
     @Override
     protected Image createBO(Cursor cursor) {
-        return BuilderCategoryImage.createCategoryImage(cursor);
+        return BuilderImage.createCategoryImage(cursor);
     }
 
     public ArrayList<Image> getAllByType(int type) {
@@ -44,7 +43,7 @@ public class DBImage extends DBBase<Image> {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                Image image = BuilderCategoryImage.createCategoryImage(cursor);
+                Image image = BuilderImage.createCategoryImage(cursor);
                 list.add(image);
                 cursor.moveToNext();
             }

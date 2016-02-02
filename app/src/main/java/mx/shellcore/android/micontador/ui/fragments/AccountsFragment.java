@@ -1,4 +1,4 @@
-package mx.shellcore.android.micontador.fragments;
+package mx.shellcore.android.micontador.ui.fragments;
 
 
 import android.app.Fragment;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.activities.AccountDetailActivity;
 import mx.shellcore.android.micontador.adapters.AdapterAccounts;
 import mx.shellcore.android.micontador.db.DBAccount;
 import mx.shellcore.android.micontador.model.Account;
+import mx.shellcore.android.micontador.ui.activities.AccountDetailActivity;
 
 public class AccountsFragment extends Fragment {
 

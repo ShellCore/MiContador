@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import mx.shellcore.android.micontador.fragments.AccountsFragment;
-import mx.shellcore.android.micontador.fragments.CategoriesFragment;
 import mx.shellcore.android.micontador.model.Category;
+import mx.shellcore.android.micontador.ui.fragments.AccountsFragment;
+import mx.shellcore.android.micontador.ui.fragments.CategoriesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

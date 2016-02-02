@@ -23,4 +23,9 @@ public class DBAccount extends DBBase<Account> {
     protected Account createBO(Cursor cursor) {
         return BuilderAccount.createAccount(cursor);
     }
+
+    public Account getByIdComplete(int account) {
+        // TODO Falta implementar dbAccount.getByIdComplete, para que consulte la cuenta con todo e imagen.
+        return null;
+    }
 }

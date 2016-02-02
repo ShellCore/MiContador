@@ -8,7 +8,7 @@ import mx.shellcore.android.micontador.model.Image;
 import mx.shellcore.android.micontador.utils.Constants;
 import mx.shellcore.android.micontador.utils.PathUtils;
 
-public class BuilderCategoryImage {
+public class BuilderImage {
 
     public static ContentValues createCategoryImageContent(Image image) {
         ContentValues values = new ContentValues();
@@ -22,10 +22,11 @@ public class BuilderCategoryImage {
     }
 
     public static Image createCategoryImage(Cursor cursor) {
-        Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
+        Image image = new Image();
 
         image.setId(cursor.getInt(Constants.IMAGE.C_ID_INDEX));
         image.setImage(cursor.getString(Constants.IMAGE.C_IMAGE_INDEX));
+        image.setType(cursor.getInt(Constants.IMAGE.C_TYPE_INDEX));
 
         return image;
     }

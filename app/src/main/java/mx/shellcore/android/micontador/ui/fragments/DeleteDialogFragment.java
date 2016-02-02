@@ -1,4 +1,4 @@
-package mx.shellcore.android.micontador.fragments;
+package mx.shellcore.android.micontador.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -9,12 +9,12 @@ public class Account {
     private int type;
     private Currency currency;
     private double beginningBalance;
-    private String image;
+    private Image image;
 
     public Account() {
     }
 
-    public Account(int id, String name, int type, Currency currency, double beginningBalance, String image) {
+    public Account(int id, String name, int type, Currency currency, double beginningBalance, Image image) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -63,11 +63,11 @@ public class Account {
         this.beginningBalance = beginningBalance;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 }

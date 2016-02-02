@@ -1,4 +1,4 @@
-package mx.shellcore.android.micontador.activities;
+package mx.shellcore.android.micontador.ui.activities;
 
 import android.app.DialogFragment;
 import android.net.Uri;
@@ -22,9 +22,9 @@ import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.adapters.AdapterImage;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.db.DBImage;
-import mx.shellcore.android.micontador.fragments.DeleteDialogFragment;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.model.Image;
+import mx.shellcore.android.micontador.ui.fragments.DeleteDialogFragment;
 
 public class CategoryDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 

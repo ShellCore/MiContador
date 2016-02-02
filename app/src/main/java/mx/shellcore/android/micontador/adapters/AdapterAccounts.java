@@ -40,7 +40,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Account account = accounts.get(position);
 
-        holder.setImgAccount(account.getImage());
+        holder.setImgAccount(account.getImage().getImage());
         holder.setTxtAccount(account.getName());
         holder.setTxtBalance(serviceAccount.getAccountBalance(account));
         holder.setTxtCents(serviceAccount.getAccountCents(account));

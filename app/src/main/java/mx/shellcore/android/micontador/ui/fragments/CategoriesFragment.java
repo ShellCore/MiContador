@@ -1,4 +1,4 @@
-package mx.shellcore.android.micontador.fragments;
+package mx.shellcore.android.micontador.ui.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -15,10 +15,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.R;
-import mx.shellcore.android.micontador.activities.CategoryDetailActivity;
 import mx.shellcore.android.micontador.adapters.AdapterCategories;
 import mx.shellcore.android.micontador.db.DBCategory;
 import mx.shellcore.android.micontador.model.Category;
+import mx.shellcore.android.micontador.ui.activities.CategoryDetailActivity;
 
 public class CategoriesFragment extends Fragment {
 
