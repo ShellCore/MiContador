@@ -18,10 +18,9 @@ import mx.shellcore.android.micontador.model.Image;
 
 public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> {
 
+    OnItemClickListener onItemClickListener;
     private ArrayList<Image> images;
     private Context context;
-
-    OnItemClickListener onItemClickListener;
 
     public AdapterImage(Context context, ArrayList<Image> images) {
         this.context = context;
@@ -39,8 +38,8 @@ public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Image image = images.get(position);
 
-        if (image.getImage() != null) {
-            holder.setImgCategoryImage(image.getImage());
+        if (image.getPath() != null) {
+            holder.setImgCategoryImage(image.getPath());
         } else {
             holder.setDefaultImgCategoryImage();
         }
@@ -49,6 +48,14 @@ public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> 
     @Override
     public int getItemCount() {
         return images.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
@@ -79,13 +86,5 @@ public class AdapterImage extends RecyclerView.Adapter<AdapterImage.ViewHolder> 
                 onItemClickListener.onItemClick(v, getPosition());
             }
         }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View v, int position);
     }
 }

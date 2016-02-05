@@ -18,7 +18,10 @@
     <string name="image_description">Descripción</string>
     <string name="category_empty_name">Debe escribir un nombre para la categoría</string>
     <string name="category_empty_image">Debe seleccionar una imagen para la categoría</string>
+    <string name="account_empty_image">Debe seleccionar una imagen para la cuenta</string>
     <string name="accounts">Cuentas</string>
+    <string name="confirm_update_account">Cuenta actualizada correctamente</string>
+    <string name="confirm_save_account">Cuenta almacenada correctamente</string>
 
     <string name="not_accounts">No hay cuentas registradas</string>
     <string name="account">Cuenta</string>
@@ -28,7 +31,9 @@
     <string name="court_day">Día de corte</string>
     <string name="limit_day">Día límite de pago</string>
     <string name="beginning_balance">Balance inicial</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_account_name">Debe de escribir un nombre para la cuenta</string>
+    <string name="error_beginning_balance">Debe de agregar una cantidad inicial a la cuenta</string>
+    <string name="error_court_day">Debe agregar la fecha de corte</string>
+    <string name="error_limit_day">Debe agregar la fecha límite de pago</string>
+    <string name="error_credit_limit">Debe agregar el límite de crédito</string>
 </resources>

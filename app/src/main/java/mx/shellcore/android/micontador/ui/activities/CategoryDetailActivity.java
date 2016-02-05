@@ -3,6 +3,7 @@ package mx.shellcore.android.micontador.ui.activities;
 import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private Switch swType;
     private RecyclerView recCategoryImages;
     private ImageView imgImage;
+    private TextInputLayout tilName;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -86,7 +88,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
                 return true;
             case R.id.action_add:
                 int msg;
-                category.setName(edtName.getText().toString());
                 if (validCategory()) {
                     if (category.getId() != 0) {
                         dbCategory.update(category, category.getId());
@@ -128,6 +129,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     }
 
     private void getComponents() {
+        tilName = (TextInputLayout) findViewById(R.id.til_name);
         edtName = (EditText) findViewById(R.id.edt_name);
         swType = (Switch) findViewById(R.id.sw_type);
         recCategoryImages = (RecyclerView) findViewById(R.id.rec_category_images);
@@ -160,7 +162,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     private void getCategoryBundle() {
         category = dbCategory.getByIdComplete(args.getInt("Category"));
         if (category != null) {
-            imgImage.setImageURI(Uri.parse(category.getLogo().getImage()));
+            imgImage.setImageURI(Uri.parse(category.getLogo().getPath()));
             edtName.setText(category.getName());
             if (category.getType() == Category.CAT_INCOME) {
                 swType.setChecked(false);
@@ -188,15 +190,20 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
     }
 
     private boolean validCategory() {
-        if (category.getName().isEmpty()) {
-            Toast.makeText(getApplicationContext(), R.string.category_empty_name, Toast.LENGTH_SHORT).show();
-            return false;
+        boolean res = true;
+        String name = edtName.getText().toString();
+        if (!name.isEmpty()) {
+            category.setName(name);
+            tilName.setError(null);
+        } else {
+            tilName.setError(getString(R.string.category_empty_name));
+            res = false;
         }
         if (category.getLogo() == null) {
             Toast.makeText(getApplicationContext(), R.string.category_empty_image, Toast.LENGTH_SHORT).show();
-            return false;
+            res = false;
         }
-        return true;
+        return res;
     }
 
     private class OnTypeClickListener implements CompoundButton.OnCheckedChangeListener {
@@ -219,7 +226,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements DeleteD
         @Override
         public void onItemClick(View v, int position) {
             category.setLogo(images.get(position));
-            imgImage.setImageURI(Uri.parse(category.getLogo().getImage()));
+            imgImage.setImageURI(Uri.parse(category.getLogo().getPath()));
         }
     }
 }

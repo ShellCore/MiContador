@@ -6,12 +6,12 @@ import android.database.Cursor;
 
 import mx.shellcore.android.micontador.builders.BuilderAccount;
 import mx.shellcore.android.micontador.model.Account;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class DBAccount extends DBBase<Account> {
 
     public DBAccount(Context context) {
-        super(context, Constants.ACCOUNT.TABLE);
+        super(context, DBTables.ACCOUNT.TABLE);
     }
 
     @Override
@@ -25,7 +25,29 @@ public class DBAccount extends DBBase<Account> {
     }
 
     public Account getByIdComplete(int account) {
-        // TODO Falta implementar dbAccount.getByIdComplete, para que consulte la cuenta con todo e imagen.
+        String[] whereArgs = new String[]{
+                String.valueOf(account)
+        };
+
+        String sql = "SELECT"
+                + " a.*,"
+                + " b." + DBTables.IMAGE.C_PATH + ","
+                + " b." + DBTables.IMAGE.C_TYPE + ","
+                + " c." + DBTables.CURRENCY.C_NAME + ","
+                + " c." + DBTables.CURRENCY.C_SYMBOL
+                + " FROM " + DBTables.ACCOUNT.TABLE + " a"
+                + " INNER JOIN " + DBTables.IMAGE.TABLE + " b"
+                + " ON a." + DBTables.ACCOUNT.C_ACCOUNT_IMAGE_ID + " = b." + DBTables.IMAGE.C_ID
+                + " INNER JOIN " + DBTables.CURRENCY.TABLE + " c"
+                + " ON a." + DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID + " = c." + DBTables.CURRENCY.C_ID
+                + " WHERE a." + DBTables.ACCOUNT.C_ID + " = ?";
+
+        database = dbHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery(sql, whereArgs);
+
+        if (cursor.moveToFirst()) {
+            return BuilderAccount.createBOComplete(cursor);
+        }
         return null;
     }
 }

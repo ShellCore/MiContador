@@ -17,11 +17,10 @@ import mx.shellcore.android.micontador.services.ServiceAccount;
 
 public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHolder> {
 
+    OnItemClickListener onItemClickListener;
     private Context context;
     private ArrayList<Account> accounts;
     private ServiceAccount serviceAccount;
-
-    OnItemClickListener onItemClickListener;
 
     public AdapterAccounts(Context context, ArrayList<Account> accounts) {
         this.context = context;
@@ -40,7 +39,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Account account = accounts.get(position);
 
-        holder.setImgAccount(account.getImage().getImage());
+        holder.setImgAccount(account.getImage().getPath());
         holder.setTxtAccount(account.getName());
         holder.setTxtBalance(serviceAccount.getAccountBalance(account));
         holder.setTxtCents(serviceAccount.getAccountCents(account));
@@ -53,6 +52,10 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     @Override
     public int getItemCount() {
         return accounts.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -96,9 +99,5 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
                 onItemClickListener.onItemClick(v, getPosition());
             }
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

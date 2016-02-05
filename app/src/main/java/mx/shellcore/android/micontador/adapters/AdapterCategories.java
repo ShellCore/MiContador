@@ -16,10 +16,9 @@ import mx.shellcore.android.micontador.model.Category;
 
 public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolder> {
 
+    OnItemClickListener onItemClickListener;
     private ArrayList<Category> categories;
     private Context context;
-
-    OnItemClickListener onItemClickListener;
 
     public AdapterCategories(Context context, ArrayList<Category> categories) {
         this.context = context;
@@ -40,12 +39,20 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         Category category = categories.get(position);
 
         holder.setTxtCategory(category.getName());
-        holder.setImgCategory(category.getLogo().getImage());
+        holder.setImgCategory(category.getLogo().getPath());
     }
 
     @Override
     public int getItemCount() {
         return categories.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,13 +84,5 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
                 onItemClickListener.onItemClick(v, getPosition());
             }
         }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View v, int position);
     }
 }

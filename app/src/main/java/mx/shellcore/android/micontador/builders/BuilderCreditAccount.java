@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import mx.shellcore.android.micontador.model.Account;
 import mx.shellcore.android.micontador.model.CreditAccount;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class BuilderCreditAccount {
 
@@ -13,12 +13,11 @@ public class BuilderCreditAccount {
         ContentValues values = new ContentValues();
 
         if (creditAccount.getId() != 0) {
-            values.put(Constants.CREDIT_ACCOUNT.C_ID, creditAccount.getId());
+            values.put(DBTables.CREDIT_ACCOUNT.C_ID, creditAccount.getId());
         }
-        values.put(Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID, creditAccount.getAccount().getId());
-        values.put(Constants.CREDIT_ACCOUNT.C_COURT_DATE, creditAccount.getCourtDay());
-        values.put(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS, creditAccount.getLimitPayDay());
-        values.put(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT, creditAccount.getCreditLimit());
+        values.put(DBTables.CREDIT_ACCOUNT.C_COURT_DATE, creditAccount.getCourtDay());
+        values.put(DBTables.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS, creditAccount.getLimitPayDay());
+        values.put(DBTables.CREDIT_ACCOUNT.C_CREDIT_LIMIT, creditAccount.getCreditLimit());
 
         return values;
     }
@@ -27,12 +26,12 @@ public class BuilderCreditAccount {
         CreditAccount creditAccount = new CreditAccount();
 
         Account account = new Account();
-        account.setId(cursor.getInt(Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID_INDEX));
+        account.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CREDIT_ACCOUNT.C_ID)));
 
-        creditAccount.setId(cursor.getInt(Constants.CREDIT_ACCOUNT.C_ID_INDEX));
-        creditAccount.setCourtDay(cursor.getInt(Constants.CREDIT_ACCOUNT.C_COURT_DATE_INDEX));
-        creditAccount.setLimitPayDay(cursor.getInt(Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS_INDEX));
-        creditAccount.setCreditLimit(cursor.getDouble(Constants.CREDIT_ACCOUNT.C_CREDIT_LIMIT_INDEX));
+        creditAccount.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CREDIT_ACCOUNT.C_ID)));
+        creditAccount.setCourtDay(cursor.getInt(cursor.getColumnIndex(DBTables.CREDIT_ACCOUNT.C_COURT_DATE)));
+        creditAccount.setLimitPayDay(cursor.getInt(cursor.getColumnIndex(DBTables.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS)));
+        creditAccount.setCreditLimit(cursor.getDouble(cursor.getColumnIndex(DBTables.CREDIT_ACCOUNT.C_CREDIT_LIMIT)));
 
         creditAccount.setAccount(account);
 

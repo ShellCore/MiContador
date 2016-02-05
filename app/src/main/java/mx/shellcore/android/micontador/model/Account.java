@@ -1,8 +1,8 @@
 package mx.shellcore.android.micontador.model;
 
 public class Account {
-    public static final int OTHER = 0;
-    public static final int CREDIT = 1;
+    public static final int OTHER = 1;
+    public static final int CREDIT = 2;
 
     private int id;
     private String name;

@@ -3,11 +3,9 @@ package mx.shellcore.android.micontador.builders;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Category;
 import mx.shellcore.android.micontador.model.Image;
-import mx.shellcore.android.micontador.utils.Constants;
-import mx.shellcore.android.micontador.utils.PathUtils;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class BuilderCategory {
 
@@ -15,15 +13,15 @@ public class BuilderCategory {
         ContentValues values = new ContentValues();
 
         if (category.getId() != 0) {
-            values.put(Constants.CATEGORY.C_ID, category.getId());
+            values.put(DBTables.CATEGORY.C_ID, category.getId());
         }
-        values.put(Constants.CATEGORY.C_NAME, category.getName());
-        values.put(Constants.CATEGORY.C_TYPE, category.getType());
+        values.put(DBTables.CATEGORY.C_NAME, category.getName());
+        values.put(DBTables.CATEGORY.C_TYPE, category.getType());
 
         if (category.getLogo() != null) {
-            values.put(Constants.CATEGORY.C_CATEGORY_IMAGE_ID, category.getLogo().getId());
+            values.put(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID, category.getLogo().getId());
         } else {
-            values.put(Constants.CATEGORY.C_CATEGORY_IMAGE_ID, 0);
+            values.put(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID, 0);
         }
 
         return values;
@@ -32,13 +30,13 @@ public class BuilderCategory {
     public static Category createCategory(Cursor cursor) {
         Category category = new Category();
 
-        category.setId(cursor.getInt(Constants.CATEGORY.C_ID_INDEX));
-        category.setName(cursor.getString(Constants.CATEGORY.C_NAME_INDEX));
-        category.setType(cursor.getInt(Constants.CATEGORY.C_TYPE_INDEX));
+        category.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_ID)));
+        category.setName(cursor.getString(cursor.getColumnIndex(DBTables.CATEGORY.C_NAME)));
+        category.setType(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_TYPE)));
 
-        if (cursor.getInt(Constants.IMAGE.C_ID_INDEX) != 0) {
-            Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
-            image.setId(cursor.getInt(Constants.CATEGORY.C_CATEGORY_IMAGE_ID_INDEX));
+        if (cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID)) != 0) {
+            Image image = new Image();
+            image.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID)));
             category.setLogo(image);
         }
 
@@ -48,14 +46,15 @@ public class BuilderCategory {
     public static Category createBOComplete(Cursor cursor) {
         Category category = new Category();
 
-        category.setId(cursor.getInt(Constants.CATEGORY.C_ID_INDEX));
-        category.setName(cursor.getString(Constants.CATEGORY.C_NAME_INDEX));
-        category.setType(cursor.getInt(Constants.CATEGORY.C_TYPE_INDEX));
+        category.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_ID)));
+        category.setName(cursor.getString(cursor.getColumnIndex(DBTables.CATEGORY.C_NAME)));
+        category.setType(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_TYPE)));
 
-        if (cursor.getInt(Constants.IMAGE.C_ID_INDEX) != 0) {
-            Image image = new Image(PathUtils.getImagePath(R.drawable.yin_yang), Image.IMG_CATEGORY);
-            image.setId(cursor.getInt(4));
-            image.setImage(cursor.getString(5));
+        if (cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID)) != 0) {
+            Image image = new Image();
+            image.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CATEGORY.C_CATEGORY_IMAGE_ID))); //4
+            image.setPath(cursor.getString(cursor.getColumnIndex(DBTables.IMAGE.C_PATH))); //5
+            image.setType(cursor.getInt(cursor.getColumnIndex(DBTables.IMAGE.C_TYPE)));
             category.setLogo(image);
         }
 

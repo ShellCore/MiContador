@@ -5,30 +5,32 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public abstract class DBBase<BO> {
 
-    DBHelper dbHelper;
-
-    SQLiteDatabase database;
     private final String table;
     private final String C_ID = BaseColumns._ID;
+    DBHelper dbHelper;
+    SQLiteDatabase database;
 
     public DBBase(Context context, String table) {
         dbHelper = new DBHelper(context);
         this.table = table;
     }
 
-    public void create(BO bo) {
+    public long create(BO bo) {
+        long id;
         ContentValues values = createContentValue(bo);
         database = dbHelper.getWritableDatabase();
         try {
-            database.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            id = database.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         } finally {
             database.close();
         }
+        return id;
     }
 
     public ArrayList<BO> getAll() {
@@ -59,9 +61,12 @@ public abstract class DBBase<BO> {
     public void update(BO bo, int id) {
         ContentValues values = createContentValue(bo);
 
+        String[] whereArgs = {String.valueOf(id)};
+
         database = dbHelper.getWritableDatabase();
         try {
-            database.updateWithOnConflict(table, values, C_ID + "=" + id, null, SQLiteDatabase.CONFLICT_IGNORE);
+            long edited = database.updateWithOnConflict(table, values, C_ID + "= ?", whereArgs, SQLiteDatabase.CONFLICT_IGNORE);
+            Log.i("Updated", "Rows updated: " + edited);
         } finally {
             dbHelper.close();
         }

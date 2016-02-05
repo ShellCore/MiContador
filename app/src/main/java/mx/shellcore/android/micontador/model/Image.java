@@ -6,20 +6,20 @@ public class Image {
     public static final int IMG_ACCOUNT = 2;
 
     private int id = 0;
-    private String image;
+    private String path;
     private int type;
 
     public Image() {
     }
 
-    public Image(String image, int type) {
-        setImage(image);
+    public Image(String path, int type) {
+        setPath(path);
         setType(type);
     }
 
-    public Image(int id, String image, int type) {
+    public Image(int id, String path, int type) {
         setId(id);
-        setImage(image);
+        setPath(path);
         setType(type);
     }
 
@@ -31,12 +31,12 @@ public class Image {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
+    public String getPath() {
+        return path;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPath(String image) {
+        this.path = image;
     }
 
     public int getType() {

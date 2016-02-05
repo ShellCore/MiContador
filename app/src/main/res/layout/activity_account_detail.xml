@@ -44,15 +44,16 @@
             android:src="@drawable/ic_not_found" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/imageView"
-            android:src="@drawable/ic_edit"
-            android:background="@color/colorAccentTransparent"
             android:layout_alignBottom="@+id/img_account"
-            android:layout_alignEnd="@+id/img_account" />
+            android:layout_alignEnd="@+id/img_account"
+            android:background="@color/colorAccentTransparent"
+            android:src="@drawable/ic_edit" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img_account"
@@ -93,6 +94,7 @@
                 android:textColor="@color/text_dark" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_beginning_balance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -153,6 +155,7 @@
                     android:textColor="@color/text_dark" />
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_credit_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp">
@@ -186,14 +189,22 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text_dark" />
 
-                <EditText
-                    android:id="@+id/edt_court_day"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_court_day"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textAlignment="center" />
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edt_court_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
                     android:id="@+id/dummyView2"
@@ -219,14 +230,22 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/text_dark" />
 
-                <EditText
-                    android:id="@+id/edt_limit_day"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_limit_day"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textAlignment="center" />
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/edt_limit_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
                     android:id="@+id/dummyView3"

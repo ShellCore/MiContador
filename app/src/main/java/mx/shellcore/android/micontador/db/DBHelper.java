@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import mx.shellcore.android.micontador.R;
 import mx.shellcore.android.micontador.model.Currency;
 import mx.shellcore.android.micontador.model.Image;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 import mx.shellcore.android.micontador.utils.PathUtils;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -35,60 +35,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.CATEGORY.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.IMAGE.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + DBTables.CATEGORY.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + DBTables.IMAGE.TABLE);
         onCreate(db);
     }
 
     private String createCategoryTable() {
-        return "CREATE TABLE " + Constants.CATEGORY.TABLE
+        return "CREATE TABLE " + DBTables.CATEGORY.TABLE
                 + " ("
-                + " " + Constants.CATEGORY.C_ID + " INTEGER PRIMARY KEY,"
-                + " " + Constants.CATEGORY.C_NAME + " TEXT,"
-                + " " + Constants.CATEGORY.C_TYPE + " INT,"
-                + " " + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " INTEGER,"
-                + " FOREIGN KEY ( " + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " ) REFERENCES " + Constants.IMAGE.TABLE + " ( " + Constants.IMAGE.C_ID + " ) "
+                + " " + DBTables.CATEGORY.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.CATEGORY.C_NAME + " TEXT,"
+                + " " + DBTables.CATEGORY.C_TYPE + " INT,"
+                + " " + DBTables.CATEGORY.C_CATEGORY_IMAGE_ID + " INTEGER,"
+                + " FOREIGN KEY ( " + DBTables.CATEGORY.C_CATEGORY_IMAGE_ID + " ) REFERENCES " + DBTables.IMAGE.TABLE + " ( " + DBTables.IMAGE.C_ID + " ) "
                 + " )";
     }
 
     private String createCategoryImageTable() {
-        return "CREATE TABLE " + Constants.IMAGE.TABLE
+        return "CREATE TABLE " + DBTables.IMAGE.TABLE
                 + " ("
-                + " " + Constants.IMAGE.C_ID + " INTEGER PRIMARY KEY,"
-                + " " + Constants.IMAGE.C_IMAGE + " STRING,"
-                + " " + Constants.IMAGE.C_TYPE + " INT"
+                + " " + DBTables.IMAGE.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.IMAGE.C_PATH + " STRING,"
+                + " " + DBTables.IMAGE.C_TYPE + " INT"
                 + " )";
     }
 
     private String createCurrencyTable() {
-        return "CREATE TABLE " + Constants.CURRENCY.TABLE
+        return "CREATE TABLE " + DBTables.CURRENCY.TABLE
                 + " ("
-                + " " + Constants.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
-                + " " + Constants.CURRENCY.C_CURRENCY + " TEXT,"
-                + " " + Constants.CURRENCY.C_SYMBOL + " TEXT"
+                + " " + DBTables.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
+                + " " + DBTables.CURRENCY.C_NAME + " TEXT,"
+                + " " + DBTables.CURRENCY.C_SYMBOL + " TEXT"
                 +" )";
     }
 
     private String createAccountTable() {
-        return "CREATE TABLE " + Constants.ACCOUNT.TABLE
+        return "CREATE TABLE " + DBTables.ACCOUNT.TABLE
                 + " ("
-                + " " + Constants.ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
-                + " " + Constants.ACCOUNT.C_NAME + " TEXT,"
-                + " " + Constants.ACCOUNT.C_TYPE + " INT,"
-                + " " + Constants.ACCOUNT.C_CURRENCY_ID + " INTEGER,"
-                + " " + Constants.ACCOUNT.C_BEGINNING_BALANCE + " REAL,"
-                + " FOREIGN KEY ( " + Constants.ACCOUNT.C_CURRENCY_ID + " ) REFERENCES " + Constants.CURRENCY.TABLE + " ( " + Constants.CURRENCY.C_ID + " ) "
+                + " " + DBTables.ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.ACCOUNT.C_NAME + " TEXT,"
+                + " " + DBTables.ACCOUNT.C_TYPE + " INT,"
+                + " " + DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID + " INTEGER,"
+                + " " + DBTables.ACCOUNT.C_BEGINNING_BALANCE + " REAL,"
+                + " " + DBTables.ACCOUNT.C_ACCOUNT_IMAGE_ID + " INTEGER,"
+                + " FOREIGN KEY ( " + DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID + " ) REFERENCES " + DBTables.CURRENCY.TABLE + " ( " + DBTables.CURRENCY.C_ID + " ) "
+                + " FOREIGN KEY ( " + DBTables.ACCOUNT.C_ACCOUNT_IMAGE_ID + " ) REFERENCES " + DBTables.IMAGE.TABLE + " ( " + DBTables.IMAGE.C_ID + " ) "
                 + " )";
     }
 
     private String createCreditTable() {
-        return "CREATE TABLE " + Constants.CREDIT_ACCOUNT.TABLE
+        return "CREATE TABLE " + DBTables.CREDIT_ACCOUNT.TABLE
                 + " ("
-                + " " + Constants.CREDIT_ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
-                + " " + Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + " INTEGER,"
-                + " " + Constants.CREDIT_ACCOUNT.C_COURT_DATE + " TEXT,"
-                + " " + Constants.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS + " INT,"
-                + " FOREIGN KEY ( " + Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + " ) REFERENCES " + Constants.ACCOUNT.TABLE + " ( " + Constants.ACCOUNT.C_ID + " ) "
+                + " " + DBTables.CREDIT_ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.CREDIT_ACCOUNT.C_COURT_DATE + " TEXT,"
+                + " " + DBTables.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS + " INT,"
+                + " FOREIGN KEY ( " + DBTables.CREDIT_ACCOUNT.C_ID + " ) REFERENCES " + DBTables.ACCOUNT.TABLE + " ( " + DBTables.ACCOUNT.C_ID + " ) "
                 + " )";
 
     }
@@ -97,17 +98,17 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Image> images = getImages();
         for (Image image : images) {
 
-            String sql = "INSERT INTO " + Constants.IMAGE.TABLE
+            String sql = "INSERT INTO " + DBTables.IMAGE.TABLE
                     + " ("
-                    + Constants.IMAGE.C_IMAGE + ", "
-                    + Constants.IMAGE.C_TYPE
+                    + DBTables.IMAGE.C_PATH + ", "
+                    + DBTables.IMAGE.C_TYPE
                     + " )"
                     + " VALUES (?, ?)";
 
             SQLiteStatement insertStatement = db.compileStatement(sql);
             insertStatement.clearBindings();
-            insertStatement.bindString(Constants.IMAGE.C_IMAGE_INDEX, image.getImage());
-            insertStatement.bindLong(Constants.IMAGE.C_TYPE_INDEX, image.getType());
+            insertStatement.bindString(1, image.getPath());
+            insertStatement.bindLong(2, image.getType());
             insertStatement.executeInsert();
         }
     }
@@ -116,10 +117,10 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Currency> currencies = getCurrencies();
 
         for (Currency currency : currencies) {
-            String sql = "INSERT INTO " + Constants.CURRENCY.TABLE
+            String sql = "INSERT INTO " + DBTables.CURRENCY.TABLE
                     + " ("
-                    + Constants.CURRENCY.C_CURRENCY + ", "
-                    + Constants.CURRENCY.C_SYMBOL
+                    + DBTables.CURRENCY.C_NAME + ", "
+                    + DBTables.CURRENCY.C_SYMBOL
                     + " )"
                     + " VALUES (?, ?)";
 

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.builders.BuilderCategory;
 import mx.shellcore.android.micontador.model.Category;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class DBCategory extends DBBase<Category> {
 
     public DBCategory(Context context) {
-        super(context, Constants.CATEGORY.TABLE);
+        super(context, DBTables.CATEGORY.TABLE);
     }
 
     @Override
@@ -33,12 +33,15 @@ public class DBCategory extends DBBase<Category> {
                 String.valueOf(type)
         };
 
-        String sql = "SELECT *"
-                + " FROM " + Constants.CATEGORY.TABLE + " a"
-                + " INNER JOIN " + Constants.IMAGE.TABLE + " b"
-                + " ON a." + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + Constants.IMAGE.C_ID
-                + " WHERE a." + Constants.CATEGORY.C_TYPE + " = ?"
-                + " ORDER BY " + Constants.CATEGORY.C_NAME;
+        String sql = "SELECT "
+                + " a.*,"
+                + " b." + DBTables.IMAGE.C_PATH + ","
+                + " b." + DBTables.IMAGE.C_TYPE
+                + " FROM " + DBTables.CATEGORY.TABLE + " a"
+                + " INNER JOIN " + DBTables.IMAGE.TABLE + " b"
+                + " ON a." + DBTables.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + DBTables.IMAGE.C_ID
+                + " WHERE a." + DBTables.CATEGORY.C_TYPE + " = ?"
+                + " ORDER BY " + DBTables.CATEGORY.C_NAME;
 
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, whereArgs);
@@ -59,11 +62,14 @@ public class DBCategory extends DBBase<Category> {
                 String.valueOf(category)
         };
 
-        String sql = "SELECT *"
-                + " FROM " + Constants.CATEGORY.TABLE + " a"
-                + " INNER JOIN " + Constants.IMAGE.TABLE + " b"
-                + " ON a." + Constants.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + Constants.IMAGE.C_ID
-                + " WHERE a." + Constants.CATEGORY.C_ID + " = ?";
+        String sql = "SELECT"
+                + " a.*,"
+                + " b." + DBTables.IMAGE.C_PATH + ","
+                + " b." + DBTables.IMAGE.C_TYPE + ""
+                + " FROM " + DBTables.CATEGORY.TABLE + " a"
+                + " INNER JOIN " + DBTables.IMAGE.TABLE + " b"
+                + " ON a." + DBTables.CATEGORY.C_CATEGORY_IMAGE_ID + " = b." + DBTables.IMAGE.C_ID
+                + " WHERE a." + DBTables.CATEGORY.C_ID + " = ?";
 
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, whereArgs);

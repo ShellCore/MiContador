@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 import mx.shellcore.android.micontador.builders.BuilderImage;
 import mx.shellcore.android.micontador.model.Image;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class DBImage extends DBBase<Image> {
 
     public DBImage(Context context) {
-        super(context, Constants.IMAGE.TABLE);
+        super(context, DBTables.IMAGE.TABLE);
     }
 
     @Override
@@ -34,9 +34,9 @@ public class DBImage extends DBBase<Image> {
         };
 
         String sql = "SELECT *"
-                + " FROM " + Constants.IMAGE.TABLE + " a"
-                + " WHERE a." + Constants.IMAGE.C_TYPE + " = ?"
-                + " ORDER BY " + Constants.IMAGE.C_IMAGE;
+                + " FROM " + DBTables.IMAGE.TABLE + " a"
+                + " WHERE a." + DBTables.IMAGE.C_TYPE + " = ?"
+                + " ORDER BY " + DBTables.IMAGE.C_PATH;
 
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, whereArgs);

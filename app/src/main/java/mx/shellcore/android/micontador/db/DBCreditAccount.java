@@ -6,12 +6,12 @@ import android.database.Cursor;
 
 import mx.shellcore.android.micontador.builders.BuilderCreditAccount;
 import mx.shellcore.android.micontador.model.CreditAccount;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class DBCreditAccount extends DBBase<CreditAccount> {
 
     public DBCreditAccount(Context context) {
-        super(context, Constants.CREDIT_ACCOUNT.TABLE);
+        super(context, DBTables.CREDIT_ACCOUNT.TABLE);
     }
 
     @Override
@@ -26,7 +26,10 @@ public class DBCreditAccount extends DBBase<CreditAccount> {
 
     public CreditAccount getByAccountId(int idAccount) {
         database = dbHelper.getReadableDatabase();
-        Cursor cursor = database.query(Constants.CREDIT_ACCOUNT.TABLE, null, Constants.CREDIT_ACCOUNT.C_ACCOUNT_ID + "=" + idAccount, null, null, null, null);
+
+        String[] whereArgs = {String.valueOf(idAccount)};
+
+        Cursor cursor = database.query(DBTables.CREDIT_ACCOUNT.TABLE, null, DBTables.CREDIT_ACCOUNT.C_ID + " = ?", whereArgs, null, null, null);
         if (!cursor.moveToFirst()) {
             return null;
         }

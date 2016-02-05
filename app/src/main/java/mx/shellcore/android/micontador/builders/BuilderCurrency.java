@@ -4,17 +4,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import mx.shellcore.android.micontador.model.Currency;
-import mx.shellcore.android.micontador.utils.Constants;
+import mx.shellcore.android.micontador.utils.DBTables;
 
 public class BuilderCurrency {
     public static ContentValues createContent(Currency currency) {
         ContentValues values = new ContentValues();
 
         if (currency.getId() != 0) {
-            values.put(Constants.CURRENCY.C_ID, currency.getId());
+            values.put(DBTables.CURRENCY.C_ID, currency.getId());
         }
-        values.put(Constants.CURRENCY.C_CURRENCY, currency.getCurrency());
-        values.put(Constants.CURRENCY.C_SYMBOL, currency.getSymbol());
+        values.put(DBTables.CURRENCY.C_NAME, currency.getCurrency());
+        values.put(DBTables.CURRENCY.C_SYMBOL, currency.getSymbol());
 
         return values;
     }
@@ -22,9 +22,9 @@ public class BuilderCurrency {
     public static Currency createCurrency(Cursor cursor) {
         Currency currency = new Currency();
 
-        currency.setId(cursor.getInt(Constants.CURRENCY.C_ID_INDEX));
-        currency.setCurrency(cursor.getString(Constants.CURRENCY.C_CURRENCY_INDEX));
-        currency.setSymbol(cursor.getString(Constants.CURRENCY.C_SYMBOL_INDEX));
+        currency.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CURRENCY.C_ID)));
+        currency.setCurrency(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
+        currency.setSymbol(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_SYMBOL)));
 
         return currency;
     }
