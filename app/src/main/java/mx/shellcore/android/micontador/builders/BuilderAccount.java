@@ -41,7 +41,7 @@ public class BuilderAccount {
         return account;
     }
 
-    public static Account createBOComplete(Cursor cursor) {
+    public static Account createAccountComplete(Cursor cursor) {
         Account account = new Account();
 
         account.setId(cursor.getInt(cursor.getColumnIndex(DBTables.ACCOUNT.C_ID)));
@@ -52,6 +52,8 @@ public class BuilderAccount {
         if (cursor.getInt(cursor.getColumnIndex(DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID)) != 0) {
             Currency currency = new Currency();
             currency.setId(cursor.getInt(cursor.getColumnIndex(DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID)));
+            currency.setCurrency(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
+            currency.setSymbol(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_SYMBOL)));
             account.setCurrency(currency);
         }
 

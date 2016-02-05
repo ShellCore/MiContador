@@ -71,7 +71,7 @@ public class AccountsFragment extends Fragment {
     }
 
     private void initializeElements() {
-        accounts = dbAccount.getAll();
+        accounts = dbAccount.getAllFull();
         adapterAccounts = new AdapterAccounts(getActivity().getApplicationContext(), accounts);
 
         recAccounts.setHasFixedSize(true);
