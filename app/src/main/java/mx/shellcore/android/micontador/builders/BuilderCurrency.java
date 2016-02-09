@@ -13,7 +13,7 @@ public class BuilderCurrency {
         if (currency.getId() != 0) {
             values.put(DBTables.CURRENCY.C_ID, currency.getId());
         }
-        values.put(DBTables.CURRENCY.C_NAME, currency.getCurrency());
+        values.put(DBTables.CURRENCY.C_NAME, currency.getName());
         values.put(DBTables.CURRENCY.C_SYMBOL, currency.getSymbol());
 
         return values;
@@ -23,7 +23,7 @@ public class BuilderCurrency {
         Currency currency = new Currency();
 
         currency.setId(cursor.getInt(cursor.getColumnIndex(DBTables.CURRENCY.C_ID)));
-        currency.setCurrency(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
+        currency.setName(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
         currency.setSymbol(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_SYMBOL)));
 
         return currency;

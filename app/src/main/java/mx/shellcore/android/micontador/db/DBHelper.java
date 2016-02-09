@@ -63,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private String createCurrencyTable() {
         return "CREATE TABLE " + DBTables.CURRENCY.TABLE
                 + " ("
-                + " " + DBTables.CURRENCY.C_ID + " INTEGER PRYMARY KEY,"
+                + " " + DBTables.CURRENCY.C_ID + " INTEGER PRIMARY KEY,"
                 + " " + DBTables.CURRENCY.C_NAME + " TEXT,"
                 + " " + DBTables.CURRENCY.C_SYMBOL + " TEXT"
                 +" )";
@@ -126,7 +126,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             SQLiteStatement insertStatement = db.compileStatement(sql);
             insertStatement.clearBindings();
-            insertStatement.bindString(1, currency.getCurrency());
+            insertStatement.bindString(1, currency.getName());
             insertStatement.bindString(2, currency.getSymbol());
             insertStatement.executeInsert();
         }
@@ -239,17 +239,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private ArrayList<Currency> getCurrencies() {
         ArrayList <Currency> currencies = new ArrayList<>();
 
-        currencies.add(new Currency(0, "USD", "$"));
-        currencies.add(new Currency(0, "SEK", "kr"));
-        currencies.add(new Currency(0, "HKD", "$"));
-        currencies.add(new Currency(0, "AUD", "$"));
-        currencies.add(new Currency(0, "CHF", "CHF"));
-        currencies.add(new Currency(0, "NZD", "$"));
-        currencies.add(new Currency(0, "GBP", "£"));
-        currencies.add(new Currency(0, "MXN", "$"));
-        currencies.add(new Currency(0, "NOK", "kr"));
-        currencies.add(new Currency(0, "EUR", "€"));
-        currencies.add(new Currency(0, "JPY", "¥"));
+        currencies.add(new Currency("USD", "$"));
+        currencies.add(new Currency("SEK", "kr"));
+        currencies.add(new Currency("HKD", "$"));
+        currencies.add(new Currency("AUD", "$"));
+        currencies.add(new Currency("CHF", "CHF"));
+        currencies.add(new Currency("NZD", "$"));
+        currencies.add(new Currency("GBP", "£"));
+        currencies.add(new Currency("MXN", "$"));
+        currencies.add(new Currency("NOK", "kr"));
+        currencies.add(new Currency("EUR", "€"));
+        currencies.add(new Currency("JPY", "¥"));
 
         return currencies;
     }

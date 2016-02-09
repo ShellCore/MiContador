@@ -12,11 +12,11 @@ public class CreditAccount {
     }
 
     public CreditAccount(int id, Account account, int courtDay, int limitPayDay, Double creditLimit) {
-        this.id = id;
-        this.account = account;
-        this.courtDay = courtDay;
-        this.limitPayDay = limitPayDay;
-        this.creditLimit = creditLimit;
+        setId(id);
+        setAccount(account);
+        setCourtDay(courtDay);
+        setLimitPayDay(limitPayDay);
+        setCreditLimit(creditLimit);
     }
 
     public Account getAccount() {

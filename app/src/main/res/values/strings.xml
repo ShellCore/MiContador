@@ -36,4 +36,8 @@
     <string name="error_court_day">Debe agregar la fecha de corte</string>
     <string name="error_limit_day">Debe agregar la fecha límite de pago</string>
     <string name="error_credit_limit">Debe agregar el límite de crédito</string>
+    <string name="symbol">$</string>
+    <string name="zero">0</string>
+    <string name="point">.</string>
+    <string name="double_zero">00</string>
 </resources>

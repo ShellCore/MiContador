@@ -20,6 +20,7 @@ public class BuilderAccount {
         values.put(DBTables.ACCOUNT.C_TYPE, account.getType());
         values.put(DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID, account.getCurrency().getId());
         values.put(DBTables.ACCOUNT.C_BEGINNING_BALANCE, account.getBeginningBalance());
+        values.put(DBTables.ACCOUNT.C_ACCOUNT_IMAGE_ID, account.getImage().getId());
 
         return values;
     }
@@ -52,7 +53,7 @@ public class BuilderAccount {
         if (cursor.getInt(cursor.getColumnIndex(DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID)) != 0) {
             Currency currency = new Currency();
             currency.setId(cursor.getInt(cursor.getColumnIndex(DBTables.ACCOUNT.C_ACCOUNT_CURRENCY_ID)));
-            currency.setCurrency(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
+            currency.setName(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_NAME)));
             currency.setSymbol(cursor.getString(cursor.getColumnIndex(DBTables.CURRENCY.C_SYMBOL)));
             account.setCurrency(currency);
         }

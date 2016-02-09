@@ -220,6 +220,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     private void createAccount() {
         account = new Account();
         creditAccount = new CreditAccount();
+        account.setCurrency((Currency) spnCurrencies.getSelectedItem());
         setNoCreditAccount();
     }
 

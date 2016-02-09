@@ -72,7 +72,7 @@ public class DBAccount extends DBBase<Account> {
         Cursor cursor = database.rawQuery(sql, null);
 
         if (cursor.moveToFirst()) {
-            if (!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
                 Account account = BuilderAccount.createAccountComplete(cursor);
                 list.add(account);
                 cursor.moveToNext();

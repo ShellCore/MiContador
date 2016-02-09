@@ -6,7 +6,7 @@ public class UtilsCurrency {
         return (long) num;
     }
 
-    public static double getFractionalPart(double num) {
-        return ((num - getIntegerPart(num)) * 100);
+    public static long getFractionalPart(double num) {
+        return (long) ((num - getIntegerPart(num)) * 100);
     }
 }

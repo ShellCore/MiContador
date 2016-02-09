@@ -40,6 +40,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
         Account account = accounts.get(position);
 
         holder.setImgAccount(account.getImage().getPath());
+        holder.setTxtCurrency(account.getCurrency().getSymbol());
         holder.setTxtAccount(account.getName());
         holder.setTxtBalance(serviceAccount.getAccountBalance(account));
         holder.setTxtCents(serviceAccount.getAccountCents(account));
@@ -62,6 +63,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
 
         private ImageView imgAccount;
         private TextView txtAccount;
+        private TextView txtCurrency;
         private TextView txtBalance;
         private TextView txtCents;
 
@@ -69,6 +71,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             super(itemView);
 
             imgAccount = (ImageView) itemView.findViewById(R.id.img_account);
+            txtCurrency = (TextView) itemView.findViewById(R.id.txt_currency);
             txtAccount = (TextView) itemView.findViewById(R.id.txt_account);
             txtBalance = (TextView) itemView.findViewById(R.id.txt_balance);
             txtCents = (TextView) itemView.findViewById(R.id.txt_cents);
@@ -78,6 +81,10 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
 
         public void setImgAccount(String imgUrl) {
             imgAccount.setImageURI(Uri.parse(imgUrl));
+        }
+
+        public void setTxtCurrency(String symbol) {
+            txtCurrency.setText(symbol);
         }
 
         public void setTxtAccount(String account) {

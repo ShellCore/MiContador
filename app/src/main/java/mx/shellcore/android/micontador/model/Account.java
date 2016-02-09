@@ -15,12 +15,12 @@ public class Account {
     }
 
     public Account(int id, String name, int type, Currency currency, double beginningBalance, Image image) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.currency = currency;
-        this.beginningBalance = beginningBalance;
-        this.image = image;
+        setId(id);
+        setName(name);
+        setType(type);
+        setCurrency(currency);
+        setBeginningBalance(beginningBalance);
+        setImage(image);
     }
 
     public int getId() {

@@ -14,10 +14,10 @@ public class Category {
     }
 
     public Category(int id, String name, Image logo, int type) {
-        this.id = id;
-        this.name = name;
-        this.logo = logo;
-        this.type = type;
+        setId(id);
+        setName(name);
+        setLogo(logo);
+        setType(type);
     }
 
     public int getId() {

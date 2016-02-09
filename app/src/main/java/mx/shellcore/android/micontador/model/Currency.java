@@ -3,15 +3,20 @@ package mx.shellcore.android.micontador.model;
 public class Currency {
 
     private int id;
-    private String currency;
+    private String name;
     private String symbol;
 
     public Currency() {}
 
-    public Currency(int id, String currency, String symbol) {
-        this.id = id;
-        this.currency = currency;
-        this.symbol = symbol;
+    public Currency(String name, String symbol) {
+        setName(name);
+        setSymbol(symbol);
+    }
+
+    public Currency(int id, String name, String symbol) {
+        setId(id);
+        setName(name);
+        setSymbol(symbol);
     }
 
     public int getId() {
@@ -22,12 +27,12 @@ public class Currency {
         this.id = id;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getName() {
+        return name;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSymbol() {
@@ -40,6 +45,6 @@ public class Currency {
 
     @Override
     public String toString() {
-        return currency;
+        return name;
     }
 }
