@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/credit_limit"
-                        android:inputType="numberSigned"
+                        android:inputType="numberDecimal"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/text_dark" />
 

@@ -97,21 +97,27 @@ public class AccountDetailActivity extends AppCompatActivity {
                     int msg;
                     if (account.getId() != 0) {
                         dbAccount.update(account, account.getId());
-                        if (chkCredit.isChecked()) {
-                            creditAccount.setAccount(account);
-                            dbCreditAccount.update(creditAccount, creditAccount.getId());
-                        }
-                        msg = R.string.confirm_save_account;
+                        msg = R.string.confirm_update_account;
                     } else {
                         long idAccount = dbAccount.create(account);
-                        if (chkCredit.isChecked()) {
-                            account.setId((int) idAccount);
-                            creditAccount.setAccount(account);
-                            creditAccount.setId(account.getId());
-                            dbCreditAccount.update(creditAccount, creditAccount.getId());
-                        }
+                        account.setId((int) idAccount);
                         msg = R.string.confirm_save_account;
                     }
+                    if (chkCredit.isChecked()) {
+                        creditAccount.setAccount(account);
+                        if (creditAccount.getId() != 0) {
+                            dbCreditAccount.update(creditAccount, creditAccount.getId());
+                        } else {
+                            creditAccount.setId(account.getId());
+                            dbCreditAccount.create(creditAccount);
+                        }
+                    } else {
+                        CreditAccount accountToDelete = dbCreditAccount.getById(account.getId());
+                        if (accountToDelete != null) {
+                            dbCreditAccount.delete(account.getId());
+                        }
+                    }
+
                     setResult(RESULT_OK);
                     finish();
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -202,7 +208,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         account = dbAccount.getByIdComplete(args.getInt("Account"));
         if (account != null) {
             edtAccount.setText(account.getName());
-            edtBeginningBalance.setText(String.format("%f", account.getBeginningBalance()));
+            edtBeginningBalance.setText(String.format("%1$,.2f", account.getBeginningBalance()));
             imgAccount.setImageURI(Uri.parse(account.getImage().getPath()));
             setSelectedCurrency(account.getCurrency());
 
@@ -219,7 +225,6 @@ public class AccountDetailActivity extends AppCompatActivity {
 
     private void createAccount() {
         account = new Account();
-        creditAccount = new CreditAccount();
         account.setCurrency((Currency) spnCurrencies.getSelectedItem());
         setNoCreditAccount();
     }
@@ -231,10 +236,10 @@ public class AccountDetailActivity extends AppCompatActivity {
     private void setCreditAccount() {
         linCredit.setVisibility(View.VISIBLE);
         creditAccount.setAccount(account);
-//        edtCourtDay.setText(String.format("%d", creditAccount.getCourtDay()));
-//        edtCreditLimit.setText(String.format("%f", creditAccount.getCreditLimit()));
-//        edtLimitDay.setText(String.format("%d", creditAccount.getLimitPayDay()));
-//        chkCredit.setChecked(true);
+        edtCourtDay.setText(String.valueOf(creditAccount.getCourtDay()));
+        edtCreditLimit.setText(String.format("%1$,.2f", creditAccount.getCreditLimit()));
+        edtLimitDay.setText(String.valueOf(creditAccount.getLimitPayDay()));
+        chkCredit.setChecked(true);
     }
 
     private void setNoCreditAccount() {
@@ -242,6 +247,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         edtCourtDay.setText("");
         edtCreditLimit.setText("");
         edtLimitDay.setText("");
+        creditAccount = new CreditAccount();
         creditAccount.setAccount(null);
     }
 

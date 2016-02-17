@@ -28,6 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createCategoryImageTable());
         db.execSQL(createCurrencyTable());
         db.execSQL(createAccountTable());
+        db.execSQL(createCreditTable());
 
         initializeImages(db);
         initializeCurrencies(db);
@@ -87,6 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return "CREATE TABLE " + DBTables.CREDIT_ACCOUNT.TABLE
                 + " ("
                 + " " + DBTables.CREDIT_ACCOUNT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.CREDIT_ACCOUNT.C_CREDIT_LIMIT + " REAL,"
                 + " " + DBTables.CREDIT_ACCOUNT.C_COURT_DATE + " TEXT,"
                 + " " + DBTables.CREDIT_ACCOUNT.C_LIMIT_PAY_DAYS + " INT,"
                 + " FOREIGN KEY ( " + DBTables.CREDIT_ACCOUNT.C_ID + " ) REFERENCES " + DBTables.ACCOUNT.TABLE + " ( " + DBTables.ACCOUNT.C_ID + " ) "

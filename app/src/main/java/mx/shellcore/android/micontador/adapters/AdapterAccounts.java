@@ -76,7 +76,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             txtBalance = (TextView) itemView.findViewById(R.id.txt_balance);
             txtCents = (TextView) itemView.findViewById(R.id.txt_cents);
 
-
+            itemView.setOnClickListener(this);
         }
 
         public void setImgAccount(String imgUrl) {
