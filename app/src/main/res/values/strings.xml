@@ -22,6 +22,7 @@
     <string name="accounts">Cuentas</string>
     <string name="confirm_update_account">Cuenta actualizada correctamente</string>
     <string name="confirm_save_account">Cuenta almacenada correctamente</string>
+    <string name="confirm_delete_account">Cuenta eliminada correctamente</string>
 
     <string name="not_accounts">No hay cuentas registradas</string>
     <string name="account">Cuenta</string>

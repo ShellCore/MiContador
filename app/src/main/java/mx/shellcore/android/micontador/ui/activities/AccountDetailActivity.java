@@ -1,5 +1,6 @@
 package mx.shellcore.android.micontador.ui.activities;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +31,9 @@ import mx.shellcore.android.micontador.model.CreditAccount;
 import mx.shellcore.android.micontador.model.Currency;
 import mx.shellcore.android.micontador.model.Image;
 import mx.shellcore.android.micontador.ui.dialogs.AccountImageSelectionDialogFragment;
+import mx.shellcore.android.micontador.ui.fragments.DeleteDialogFragment;
 
-public class AccountDetailActivity extends AppCompatActivity {
+public class AccountDetailActivity extends AppCompatActivity implements DeleteDialogFragment.DialogListener {
 
     // Constants
 
@@ -52,6 +54,7 @@ public class AccountDetailActivity extends AppCompatActivity {
 
 
     // Components
+    private DeleteDialogFragment deleteDialogFragment;
     private Toolbar accountToolbar;
     private CheckBox chkCredit;
     private TextInputLayout tilAccount;
@@ -125,8 +128,9 @@ public class AccountDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete:
                 if (account.getId() != 0) {
-                    Toast.makeText(getApplicationContext(), "Delete pressed", Toast.LENGTH_SHORT)
-                            .show();
+
+                    deleteDialogFragment = new DeleteDialogFragment();
+                    deleteDialogFragment.show(getFragmentManager(), "Eliminar");
                 } else {
                     finish();
                 }
@@ -135,6 +139,25 @@ public class AccountDetailActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        dbAccount.delete(account.getId());
+        CreditAccount accountToDelete = dbCreditAccount.getById(account.getId());
+        if (accountToDelete != null) {
+            dbCreditAccount.delete(account.getId());
+        }
+        deleteDialogFragment.dismiss();
+        finish();
+        Toast.makeText(getApplicationContext(), R.string.confirm_delete_category, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        deleteDialogFragment.dismiss();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
