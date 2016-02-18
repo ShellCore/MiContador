@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createCurrencyTable());
         db.execSQL(createAccountTable());
         db.execSQL(createCreditTable());
+        db.execSQL(createMovementTable());
 
         initializeImages(db);
         initializeCurrencies(db);
@@ -94,6 +95,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 + " FOREIGN KEY ( " + DBTables.CREDIT_ACCOUNT.C_ID + " ) REFERENCES " + DBTables.ACCOUNT.TABLE + " ( " + DBTables.ACCOUNT.C_ID + " ) "
                 + " )";
 
+    }
+
+    private String createMovementTable() {
+        return "CREATE TABLE " + DBTables.MOVEMENT.TABLE
+                + " ("
+                + " " + DBTables.MOVEMENT.C_ID + " INTEGER PRIMARY KEY,"
+                + " " + DBTables.MOVEMENT.C_AMOUNT + " REAL,"
+                + " " + DBTables.MOVEMENT.C_DATE + " STRING,"
+                + " " + DBTables.MOVEMENT.C_DESCRIPTION + " STRING,"
+                + " " + DBTables.MOVEMENT.C_TYPE + " INT,"
+                + " " + DBTables.MOVEMENT.C_ACCOUNT_ID + " INTEGER,"
+                + " " + DBTables.MOVEMENT.C_CATEGORY_ID + " INTEGER,"
+                + " FOREIGN KEY ( " + DBTables.MOVEMENT.C_ACCOUNT_ID + " ) REFERENCES " + DBTables.ACCOUNT.TABLE + " ( " + DBTables.ACCOUNT.C_ID + " ) "
+                + " FOREIGN KEY ( " + DBTables.MOVEMENT.C_CATEGORY_ID + " ) REFERENCES " + DBTables.CATEGORY.TABLE + " ( " + DBTables.CATEGORY.C_ID + " ) "
+                + " ) ";
     }
 
     private void initializeImages(SQLiteDatabase db) {
